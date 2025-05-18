@@ -1,0 +1,41 @@
+{
+  "prerequisites": "",
+  "id": "soloquest-id-2",
+  "name": "Solo Quest 2",
+  "desc": "This is a test quest.",
+  "category": "Fundational Mathematics",
+  "blockCount": 3,
+  "sections": [
+    {
+      "name": "Introduction",
+      "blocks": [
+        {
+          "id": "para-welcome",
+          "content": "This is the welcome paragraph.",
+          "updatedAt": "2025-05-18T14:11:33.701Z",
+          "type": "PARA"
+        }
+      ]
+    },
+    {
+      "name": "Main Content",
+      "blocks": [
+        {
+          "id": "para-explanation",
+          "content": "This explains the concept.",
+          "updatedAt": "2025-05-18T14:11:33.701Z",
+          "type": "PARA"
+        },
+        {
+          "id": "para-conclusion",
+          "content": "This is the conclusion.",
+          "updatedAt": "2025-05-18T14:11:33.701Z",
+          "type": "PARA"
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2025-05-18T14:11:33.701Z",
+  "dependentQuests": [],
+  "childQuests": []
+}
