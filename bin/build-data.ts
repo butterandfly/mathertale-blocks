@@ -137,7 +137,7 @@ export function buildAllSoloQuestData(rootDir: string, outputDir: string = 'data
     const soloQuestFileName = `soloquest-${soloQuest.id}.json`;
     writeFileSync(
       path.join(outputSoloQuestDir, soloQuestFileName),
-      JSON.stringify(soloQuest, null, 2)
+      JSON.stringify(soloQuest, null, 2),
     );
 
     allSoloQuests.push(soloQuest);
@@ -147,7 +147,7 @@ export function buildAllSoloQuestData(rootDir: string, outputDir: string = 'data
   const soloQuestShorts: SoloQuestShortSchema[] = allSoloQuests.map(({ ...rest }) => rest);
   writeFileSync(
     path.join(outputSoloQuestDir, 'soloquests.json'),
-    JSON.stringify(soloQuestShorts, null, 2)
+    JSON.stringify(soloQuestShorts, null, 2),
   );
 }
 

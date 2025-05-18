@@ -101,7 +101,7 @@ This is the explanation.`;
       };
 
       expect(() => ContradictionBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Choices cannot be empty for block ID: test-id'
+        'Choices cannot be empty for block ID: test-id',
       );
     });
 
@@ -123,7 +123,7 @@ Test explanation`;
       };
 
       expect(() => ContradictionBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Answer must contain exactly 2 keys for block ID: test-id'
+        'Answer must contain exactly 2 keys for block ID: test-id',
       );
     });
 
@@ -145,7 +145,7 @@ a, b`;
       };
 
       expect(() => ContradictionBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Explanation is required for block ID: test-id'
+        'Explanation is required for block ID: test-id',
       );
     });
 
@@ -171,7 +171,7 @@ Test explanation`;
       };
 
       expect(() => ContradictionBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Answer must contain exactly 2 keys for block ID: test-id'
+        'Answer must contain exactly 2 keys for block ID: test-id',
       );
     });
 
@@ -196,7 +196,7 @@ Test explanation`;
       };
 
       expect(() => ContradictionBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Answer key "c" does not exist in choices (a, b) for block ID: test-id'
+        'Answer key "c" does not exist in choices (a, b) for block ID: test-id',
       );
     });
   });
@@ -221,7 +221,7 @@ Test explanation`;
           'answer:\n' +
           'a, b\n\n' +
           'explanation:\n' +
-          'Test explanation'
+          'Test explanation',
       );
     });
 
@@ -240,7 +240,7 @@ Test explanation`;
           'answer:\n' +
           'a, b\n\n' +
           'explanation:\n' +
-          'Test explanation'
+          'Test explanation',
       );
     });
   });

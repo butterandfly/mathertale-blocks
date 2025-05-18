@@ -29,18 +29,14 @@ export function renderParaBlock(
   );
 }
 
-export function ParaBlock({ 
-  data,
-  blockProgress,
-  onContinue,
-}: ParaBlockProps) {
+export function ParaBlock({ data, blockProgress, onContinue }: ParaBlockProps) {
   return (
     <div className="space-y-4">
       <MarkdownContent content={data.content} />
-      <BlockProgressControl 
+      <BlockProgressControl
         status={blockProgress.status}
         onContinue={() => onContinue(data)}
       />
     </div>
   );
-} 
+}

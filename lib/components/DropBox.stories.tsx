@@ -32,7 +32,7 @@ export const Empty: Story = {
   },
   // play: async ({ canvasElement, step }) => {
   //   const canvas = within(canvasElement);
-    
+
   //   await step('Check if drop box is rendered', async () => {
   //     const dropBox = canvas.getByRole('button');
   //     expect(dropBox).toBeInTheDocument();
@@ -80,4 +80,4 @@ export const Disabled: Story = {
     color: 'blue',
     disabled: true,
   },
-}; 
+};

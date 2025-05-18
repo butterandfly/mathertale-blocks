@@ -19,7 +19,7 @@ export const Default: Story = {
     children: 'This is a highlight box with default theme (blue)',
     theme: 'blue',
     withBackground: true,
-    tag: 'Definition'
+    tag: 'Definition',
   },
 };
 
@@ -29,7 +29,7 @@ export const WithQuestionMark: Story = {
     theme: 'blue',
     withBackground: true,
     tag: 'Definition',
-    questionMarkContent: 'This is additional information about this definition box.'
+    questionMarkContent: 'This is additional information about this definition box.',
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -44,7 +44,8 @@ export const WithMarkdownTooltip: Story = {
     theme: 'green',
     withBackground: true,
     tag: 'Theorem',
-    questionMarkContent: '**Important Note:**\n\nThis theorem is a fundamental result that states:\n\n$$E = mc^2$$\n\nWhere:\n- $E$ is energy\n- $m$ is mass\n- $c$ is the speed of light'
+    questionMarkContent:
+      '**Important Note:**\n\nThis theorem is a fundamental result that states:\n\n$$E = mc^2$$\n\nWhere:\n- $E$ is energy\n- $m$ is mass\n- $c$ is the speed of light',
   },
 };
 
@@ -61,7 +62,7 @@ export const NoBackground: Story = {
     children: 'This is a highlight box without background',
     theme: 'blue',
     withBackground: false,
-    tag: 'Definition'
+    tag: 'Definition',
   },
 };
 
@@ -70,7 +71,7 @@ export const GreenTheme: Story = {
     children: 'This is a highlight box with green theme',
     theme: 'green',
     withBackground: true,
-    tag: 'Success'
+    tag: 'Success',
   },
 };
 
@@ -97,6 +98,6 @@ export const GrayTheme: Story = {
     children: 'This is a highlight box with gray theme',
     theme: 'gray',
     withBackground: true,
-    tag: 'Note'
+    tag: 'Note',
   },
-}; 
+};

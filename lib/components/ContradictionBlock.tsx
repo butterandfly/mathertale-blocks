@@ -1,15 +1,15 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { 
-  DndContext, 
-  type DragEndEvent, 
-  KeyboardSensor, 
-  MouseSensor, 
-  TouchSensor, 
-  useSensor, 
+import {
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
   useSensors,
-  MeasuringStrategy
+  MeasuringStrategy,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { DraggableMarkdownItem } from './DraggableMarkdownItem';
@@ -20,7 +20,10 @@ import { type BlockSchema as Block, type BlockStatus } from '../core/schemas';
 import { BlockProgressControl } from './BlockProgressControl';
 import { SubmitControl } from './SubmitControl';
 import { Swords } from 'lucide-react';
-import { type ContradictionChoice, type ContradictionBlockData } from '../core/blocks/contradiction-block';
+import {
+  type ContradictionChoice,
+  type ContradictionBlockData,
+} from '../core/blocks/contradiction-block';
 
 const questionMarkContent = `Drag the contradiction facts into the boxes. Selected facts should be:
 - true, based on the assumption;
@@ -51,13 +54,13 @@ export function ContradictionBlock({
   const initialItems = useMemo(() => {
     const items = data.questionData.choices.map((choice: ContradictionChoice) => ({
       ...choice,
-      currentDropBoxId: undefined
+      currentDropBoxId: undefined,
     }));
 
     // 如果已经有提交的答案，将对应的选项放入对应的盒子
     if (submittedAnswer) {
       const [box1Key, box2Key] = submittedAnswer.split(',');
-      
+
       return items.map((item) => {
         if (item.key === box1Key) {
           return { ...item, currentDropBoxId: 'box-1' };
@@ -79,16 +82,16 @@ export function ContradictionBlock({
     if (!submittedAnswer) {
       return { explanation: null, isCorrect: false };
     }
-    
+
     // 检查答案是否正确
     const answer = data.questionData.answer;
     const submittedAnswerArray = submittedAnswer.split(',');
 
     const isEqual = haveSameElements(answer, submittedAnswerArray);
 
-    return { 
+    return {
       explanation: data.questionData.explanation,
-      isCorrect: isEqual
+      isCorrect: isEqual,
     };
   }, [submittedAnswer, data.questionData]);
 
@@ -99,13 +102,13 @@ export function ContradictionBlock({
       const boxColor = isCorrect ? 'green' : 'red';
       return [
         { id: 'box-1', color: boxColor as DropBoxColor },
-        { id: 'box-2', color: boxColor as DropBoxColor }
+        { id: 'box-2', color: boxColor as DropBoxColor },
       ];
     }
-    
+
     return [
       { id: 'box-1', color: 'yellow' as DropBoxColor },
-      { id: 'box-2', color: 'purple' as DropBoxColor }
+      { id: 'box-2', color: 'purple' as DropBoxColor },
     ];
   }, [submittedAnswer, isCorrect]);
 
@@ -124,7 +127,7 @@ export function ContradictionBlock({
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   // 处理拖拽结束事件
@@ -133,9 +136,9 @@ export function ContradictionBlock({
     if (submittedAnswer !== undefined) {
       return;
     }
-    
+
     const { active, over } = event;
-    
+
     if (!over) {
       // 如果没有拖到任何地方，检查是否是从 dropbox 中拖出
       const draggedItemIndex = items.findIndex((item) => item.key === active.id);
@@ -151,7 +154,7 @@ export function ContradictionBlock({
       }
       return;
     }
-    
+
     // 检查是否拖到了 dropbox 区域外
     const isDroppedOutsideBox = !dropBoxes.some((box) => box.id === over.id);
     if (isDroppedOutsideBox) {
@@ -169,23 +172,23 @@ export function ContradictionBlock({
       }
       return;
     }
-    
+
     // 检查是否拖到了 dropbox
     const isDroppedInBox = dropBoxes.some((box) => box.id === over.id);
     if (!isDroppedInBox) return;
-    
+
     // 找到被拖动的项目
     const draggedItemIndex = items.findIndex((item) => item.key === active.id);
     if (draggedItemIndex === -1) return;
-    
+
     // 检查目标 dropbox 是否已经有项目
     const existingItemIndex = items.findIndex(
-      (item) => item.currentDropBoxId === over.id && item.key !== active.id
+      (item) => item.currentDropBoxId === over.id && item.key !== active.id,
     );
-    
+
     // 更新项目的 dropbox
     const updatedItems = [...items];
-    
+
     // 如果目标 dropbox 已经有项目，将其移回可用区域
     if (existingItemIndex !== -1) {
       // 如果被拖动的项目已经在一个 dropbox 中，则交换两个项目的位置
@@ -202,13 +205,13 @@ export function ContradictionBlock({
         };
       }
     }
-    
+
     // 将被拖动的项目放入目标 dropbox
     updatedItems[draggedItemIndex] = {
       ...updatedItems[draggedItemIndex],
       currentDropBoxId: over.id as string,
     };
-    
+
     setItems(updatedItems);
     setError(null);
   };
@@ -216,8 +219,8 @@ export function ContradictionBlock({
   // 处理提交
   const handleSubmit = async () => {
     // 检查是否两个 dropbox 都有项目
-    const box1Item = items.find(item => item.currentDropBoxId === 'box-1');
-    const box2Item = items.find(item => item.currentDropBoxId === 'box-2');
+    const box1Item = items.find((item) => item.currentDropBoxId === 'box-1');
+    const box2Item = items.find((item) => item.currentDropBoxId === 'box-2');
 
     if (!box1Item || !box2Item) {
       setError('Please place an item in each box');
@@ -236,13 +239,19 @@ export function ContradictionBlock({
   const isSubmitted = submittedAnswer !== undefined;
 
   // 检查是否可以提交
-  const canSubmit = items.filter(item => item.currentDropBoxId).length === 2;
+  const canSubmit = items.filter((item) => item.currentDropBoxId).length === 2;
 
   return (
     <div className="space-y-6">
-      <HighlightBox theme="gray" withBackground={false} tag="Contradiction" questionMarkContent={questionMarkContent} className="space-y-6">
+      <HighlightBox
+        theme="gray"
+        withBackground={false}
+        tag="Contradiction"
+        questionMarkContent={questionMarkContent}
+        className="space-y-6"
+      >
         <MarkdownContent content={data.content} />
-        
+
         <DndContext
           sensors={sensors}
           onDragEnd={handleDragEnd}
@@ -266,19 +275,24 @@ export function ContradictionBlock({
                     {items.find((item) => item.currentDropBoxId === dropBoxes[0].id) && (
                       <DraggableMarkdownItem
                         id={items.find((item) => item.currentDropBoxId === dropBoxes[0].id)!.key}
-                        content={items.find((item) => item.currentDropBoxId === dropBoxes[0].id)!.content}
+                        content={
+                          items.find((item) => item.currentDropBoxId === dropBoxes[0].id)!.content
+                        }
                         disabled={isSubmitted}
                       />
                     )}
                   </DropBox>
                 </div>
               </div>
-              
+
               {/* 中间的剑图标 */}
               <div className="flex flex-col items-center justify-center mx-2 my-2 md:my-auto">
-                <Swords className="text-gray-500" size={28} />
+                <Swords
+                  className="text-gray-500"
+                  size={28}
+                />
               </div>
-              
+
               <div className="flex flex-col items-center w-full flex-1">
                 <div className="mb-2 font-medium">Fact 2</div>
                 <div className="w-full h-full">
@@ -290,7 +304,9 @@ export function ContradictionBlock({
                     {items.find((item) => item.currentDropBoxId === dropBoxes[1].id) && (
                       <DraggableMarkdownItem
                         id={items.find((item) => item.currentDropBoxId === dropBoxes[1].id)!.key}
-                        content={items.find((item) => item.currentDropBoxId === dropBoxes[1].id)!.content}
+                        content={
+                          items.find((item) => item.currentDropBoxId === dropBoxes[1].id)!.content
+                        }
                         disabled={isSubmitted}
                       />
                     )}
@@ -298,7 +314,7 @@ export function ContradictionBlock({
                 </div>
               </div>
             </div>
-            
+
             {/* 可用的拖动项目，每行显示两个 */}
             <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
               {availableItems.map((item) => (
@@ -312,9 +328,7 @@ export function ContradictionBlock({
             </div>
 
             {/* 错误提示 */}
-            {error && !isSubmitted && (
-              <div className="text-red-500 text-sm mt-2">{error}</div>
-            )}
+            {error && !isSubmitted && <div className="text-red-500 text-sm mt-2">{error}</div>}
 
             {/* 提交控制 */}
             <SubmitControl
@@ -330,7 +344,7 @@ export function ContradictionBlock({
 
       {/* 进度控制 */}
       {isSubmitted && (
-        <BlockProgressControl 
+        <BlockProgressControl
           status={status}
           onContinue={() => onContinue(data)}
         />
@@ -362,13 +376,13 @@ function haveSameElements<T>(array1: T[], array2: T[]): boolean {
   if (array1.length !== array2.length) {
     return false;
   }
-  
+
   // Create a frequency map for array1
   const frequencyMap = new Map<T, number>();
   for (const item of array1) {
     frequencyMap.set(item, (frequencyMap.get(item) || 0) + 1);
   }
-  
+
   // Check if array2 has the same elements with the same frequency
   for (const item of array2) {
     const count = frequencyMap.get(item);
@@ -377,13 +391,13 @@ function haveSameElements<T>(array1: T[], array2: T[]): boolean {
     }
     frequencyMap.set(item, count - 1);
   }
-  
+
   // Ensure all frequencies are zero
   for (const [, count] of frequencyMap) {
     if (count !== 0) {
       return false;
     }
   }
-  
+
   return true;
 }

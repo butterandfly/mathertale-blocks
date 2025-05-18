@@ -70,15 +70,15 @@ export const DisabledWithHighlight: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // 检查内容是否正确渲染
     await expect(canvas.getByText('First Paragraph')).toBeInTheDocument();
     await expect(canvas.getByText('Second Paragraph')).toBeInTheDocument();
     await expect(canvas.getByText('Third Paragraph')).toBeInTheDocument();
-    
+
     // 检查是否有正确的高亮样式
     const items = canvas.getAllByRole('button');
-    items.forEach(async item => {
+    items.forEach(async (item) => {
       await expect(item).toHaveClass('cursor-default');
     });
   },
@@ -87,13 +87,13 @@ export const DisabledWithHighlight: Story = {
 export const WithCallback: Story = {
   args: {
     items: sampleItems,
-    onOrderChange: (newItems:unknown) => {
+    onOrderChange: (newItems: unknown) => {
       console.log('New order:', newItems);
     },
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    
+
     // 等待内容加载
     await step('Wait for content to load', async () => {
       await expect(canvas.getByText('First Paragraph')).toBeInTheDocument();
@@ -111,4 +111,4 @@ export const WithCallback: Story = {
       await expect(dragHandles).toHaveLength(3);
     });
   },
-}; 
+};

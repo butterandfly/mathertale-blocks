@@ -56,7 +56,7 @@ export class ProofReorderBlockData implements BlockSchema {
     const questionOrderArray = questionOrder.split(',');
     if (orderItems.length !== questionOrderArray.length) {
       throw new Error(
-        `Number of parts (${orderItems.length}) does not match the length of question order (${questionOrderArray.length}) for block ID: ${block.id}`
+        `Number of parts (${orderItems.length}) does not match the length of question order (${questionOrderArray.length}) for block ID: ${block.id}`,
       );
     }
 
@@ -109,7 +109,7 @@ export class ProofReorderBlockData implements BlockSchema {
         })),
         questionOrder,
       },
-      markdown.name
+      markdown.name,
     );
 
     this.validate(newBlock); // Validate the constructed block

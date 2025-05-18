@@ -31,7 +31,7 @@ This is a paragraph with **bold** and *italic* text.
 
 Image:
 ![Sans](http://localhost:3000/sans.png)
-    `
+    `,
   },
 };
 
@@ -61,7 +61,8 @@ viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet"
     B
   </text>
 </svg>
-`}
+`,
+  },
 };
 
 export const WithMath: Story = {
@@ -90,7 +91,7 @@ $$
 \\end{align}
 $$
 
-    `
+    `,
   },
 };
 
@@ -124,7 +125,7 @@ function greetUser(user: User) {
   console.log(\`Hello, \${user.name}!\`);
 }
 \`\`\`
-    `
+    `,
   },
 };
 
@@ -161,6 +162,6 @@ def solve_quadratic(a, b, c):
 - Has two solutions when $b^2 - 4ac > 0$
 - Has one solution when $b^2 - 4ac = 0$
 - Has no real solutions when $b^2 - 4ac < 0$
-    `
+    `,
   },
-}; 
+};

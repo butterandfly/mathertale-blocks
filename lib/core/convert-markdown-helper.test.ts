@@ -223,7 +223,7 @@ describe('checkRequiredProperties', () => {
     };
 
     expect(() => checkRequiredProperties(properties, ['title', 'content'])).toThrow(
-      'content is required'
+      'content is required',
     );
   });
 
@@ -235,7 +235,7 @@ describe('checkRequiredProperties', () => {
     };
 
     expect(() => checkRequiredProperties(properties, ['title', 'content'])).toThrow(
-      'content is required'
+      'content is required',
     );
   });
 
@@ -245,7 +245,7 @@ describe('checkRequiredProperties', () => {
     };
 
     expect(() => checkRequiredProperties(properties, ['title', 'content'])).toThrow(
-      'title is required'
+      'title is required',
     );
   });
 
@@ -253,7 +253,7 @@ describe('checkRequiredProperties', () => {
     const properties = {};
 
     expect(() => checkRequiredProperties(properties, ['title', 'content'])).toThrow(
-      'title is required'
+      'title is required',
     );
   });
 

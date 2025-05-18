@@ -19,7 +19,7 @@ export const Initial: Story = {
   args: {
     isSubmitEnabled: true,
     onSubmit: async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
   },
   play: async ({ canvasElement }) => {
@@ -39,14 +39,14 @@ export const CorrectAnswer: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // 检查是否显示正确提示
     await expect(canvas.getByText('Correct!')).toBeInTheDocument();
-    
+
     // 点击显示解释
     const showExplanationButton = canvas.getByRole('button', { name: /show explanation/i });
     await userEvent.click(showExplanationButton);
-    
+
     // 检查解释内容是否显示
     await expect(canvas.getByText('Explanation')).toBeInTheDocument();
   },
@@ -77,14 +77,14 @@ export const Disabled: Story = {
     const submitButton = canvas.getByRole('button', { name: /submit/i });
     await expect(submitButton).toBeDisabled();
   },
-}; 
+};
 
 // Loading
 export const Loading: Story = {
   args: {
     isSubmitEnabled: true,
     onSubmit: async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
   },
   play: async ({ canvasElement }) => {

@@ -28,7 +28,8 @@ export const Default: Story = {
 export const WithQuestionMark: Story = {
   args: {
     title: 'Definition',
-    questionMarkContent: 'This section contains important definitions that will be used throughout the proof.',
+    questionMarkContent:
+      'This section contains important definitions that will be used throughout the proof.',
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -42,7 +43,8 @@ export const WithQuestionMark: Story = {
 export const WithMarkdownTooltip: Story = {
   args: {
     title: 'Theorem',
-    questionMarkContent: '**Important Note:**\n\nThis theorem is a fundamental result in *number theory* that states:\n\n$$\\forall n \\in \\mathbb{N}, n > 1: n \\text{ is prime } \\iff \\nexists a,b \\in \\mathbb{N}: n = a \\times b \\land a,b > 1$$',
+    questionMarkContent:
+      '**Important Note:**\n\nThis theorem is a fundamental result in *number theory* that states:\n\n$$\\forall n \\in \\mathbb{N}, n > 1: n \\text{ is prime } \\iff \\nexists a,b \\in \\mathbb{N}: n = a \\times b \\land a,b > 1$$',
   },
 };
 
@@ -66,4 +68,4 @@ export const WithEmoji: Story = {
     const headline = canvas.getByText('🪦');
     await expect(headline).toBeInTheDocument();
   },
-}; 
+};

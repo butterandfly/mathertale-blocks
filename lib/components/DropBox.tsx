@@ -54,7 +54,7 @@ export function DropBox({
         isValidDrop && color === 'yellow' && 'border-yellow-500 bg-yellow-100',
         isValidDrop && color === 'purple' && 'border-purple-500 bg-purple-100',
         disabled && 'cursor-not-allowed',
-        className
+        className,
       )}
     >
       {children}

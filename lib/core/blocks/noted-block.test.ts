@@ -84,7 +84,7 @@ And some math: $$E = mc^2$$`;
         rawTokens: tokens,
       };
       expect(() => NotedBlockData.fromMarkdown(markdownBlock, FactType)).toThrow(
-        'Content cannot be empty for block ID: empty-md-id (Type: FACT)'
+        'Content cannot be empty for block ID: empty-md-id (Type: FACT)',
       );
     });
 
@@ -97,7 +97,7 @@ And some math: $$E = mc^2$$`;
         rawTokens: tokens,
       };
       expect(() => NotedBlockData.fromMarkdown(markdownBlock, RemarkType)).toThrow(
-        'Content cannot be empty for block ID: whitespace-md-id (Type: REMARK)'
+        'Content cannot be empty for block ID: whitespace-md-id (Type: REMARK)',
       );
     });
   });

@@ -14,7 +14,7 @@ export class NotedBlockData implements BlockSchema {
     public content: string,
     public type: string,
     public name: string = '',
-    public updatedAt: Date = new Date()
+    public updatedAt: Date = new Date(),
   ) {}
 
   getText(): string {

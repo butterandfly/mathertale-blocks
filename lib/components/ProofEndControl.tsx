@@ -13,13 +13,13 @@ export function ProofEndControl({ continueValue, onSelect }: ProofEndControlProp
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // const [isShaking, setIsShaking] = useState(false);
-  
+
   const tombstones: ProofTombstone[] = ['🪦', '❤️', '🌼', '□'];
-  
+
   const handleSelect = async (tombstone: ProofTombstone) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       await onSelect(tombstone);
     } catch (err) {
@@ -32,11 +32,9 @@ export function ProofEndControl({ continueValue, onSelect }: ProofEndControlProp
   };
 
   if (continueValue !== undefined) {
-    return (
-      <BlockHeadline title={continueValue} />
-    )
+    return <BlockHeadline title={continueValue} />;
   }
-  
+
   return (
     <div className="flex flex-col items-center gap-4">
       <h3 className="text font-medium text-slate-700">Choose the tombstone for this proof:</h3>
@@ -55,4 +53,4 @@ export function ProofEndControl({ continueValue, onSelect }: ProofEndControlProp
       {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
-} 
+}

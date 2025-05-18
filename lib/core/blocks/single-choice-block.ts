@@ -22,7 +22,7 @@ export class SingleChoiceBlockData implements BlockSchema {
     public content: string,
     public questionData: SingleChoiceQuestionData,
     public name?: string,
-    public updatedAt: Date = new Date()
+    public updatedAt: Date = new Date(),
   ) {}
 
   getText(): string {
@@ -132,7 +132,7 @@ ${this.questionData.explanation}
     const choiceKeys = choices.map((choice) => choice.key);
     if (!choiceKeys.includes(answer)) {
       throw new Error(
-        `Answer "${answer}" is not a valid choice key (${choiceKeys.join(', ')}) for block ID: ${block.id}`
+        `Answer "${answer}" is not a valid choice key (${choiceKeys.join(', ')}) for block ID: ${block.id}`,
       );
     }
 
@@ -186,7 +186,7 @@ ${this.questionData.explanation}
         answer: properties.answer?.trim() || '',
         explanation: properties.explanation || '',
       },
-      block.name
+      block.name,
     );
 
     this.validate(newBlock); // Validate the constructed block
@@ -195,4 +195,5 @@ ${this.questionData.explanation}
 }
 
 // 导出兼容性函数
-export const convertSingleChoiceMarkdown = SingleChoiceBlockData.fromMarkdown.bind(SingleChoiceBlockData);
+export const convertSingleChoiceMarkdown =
+  SingleChoiceBlockData.fromMarkdown.bind(SingleChoiceBlockData);

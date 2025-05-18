@@ -9,7 +9,7 @@ export class ParaBlockData implements BlockSchema {
   constructor(
     public id: string,
     public content: string,
-    public updatedAt: Date = new Date()
+    public updatedAt: Date = new Date(),
   ) {}
 
   getText(): string {

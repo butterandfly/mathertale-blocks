@@ -8,7 +8,6 @@ import 'katex/dist/katex.min.css';
 import { cn } from './ui/utils';
 import rehypeRaw from 'rehype-raw';
 
-
 interface MarkdownContentProps {
   content: string;
   className?: string;
@@ -21,7 +20,10 @@ export function MarkdownContent({ content, className }: MarkdownContentProps) {
   const components: Components = {
     code({ className, children, ...props }) {
       return (
-        <code className={cn(className)} {...props}>
+        <code
+          className={cn(className)}
+          {...props}
+        >
           {children}
         </code>
       );
@@ -32,7 +34,7 @@ export function MarkdownContent({ content, className }: MarkdownContentProps) {
     <ReactMarkdown
       remarkPlugins={remarkPlugins}
       rehypePlugins={rehypePlugins}
-      className={cn("prose prose-slate max-w-none", className)}
+      className={cn('prose prose-slate max-w-none', className)}
       components={components}
     >
       {content}

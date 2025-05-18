@@ -29,7 +29,8 @@ const defaultData: ContradictionBlockData = {
       { key: 'D', content: 'The product of two natural numbers is always a natural number.' },
     ],
     answer: ['A', 'B'],
-    explanation: 'The statements "All natural numbers are positive integers" and "Zero is a natural number" contradict each other because zero is not a positive integer.',
+    explanation:
+      'The statements "All natural numbers are positive integers" and "Zero is a natural number" contradict each other because zero is not a positive integer.',
   },
   updatedAt: new Date('2024-01-01'),
   getText: () => 'Drag the "facts" that contradict each other into the boxes.',
@@ -42,11 +43,11 @@ export const Default: Story = {
     status: BlockStatus.IN_PROGRESS,
     onSubmit: async (data, submittedAnswer) => {
       console.log('Submitted:', data.id, 'Answer:', submittedAnswer);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
     onContinue: async (data) => {
       console.log('Continue:', data.id);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
   },
 };
@@ -59,17 +60,17 @@ export const CorrectAnswer: Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    
+
     await step('验证正确状态显示', async () => {
       await expect(canvas.getByText('🎉')).toBeInTheDocument();
       await expect(canvas.getByText('Correct!')).toBeInTheDocument();
     });
-    
+
     await step('点击显示解释', async () => {
       const explanationButton = canvas.getByText('Show Explanation');
       await userEvent.click(explanationButton);
     });
-    
+
     await step('验证解释内容', async () => {
       await expect(canvas.getByText('The statements', { exact: false })).toBeInTheDocument();
     });
@@ -84,7 +85,7 @@ export const WrongAnswer: Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    
+
     await step('验证错误状态显示', async () => {
       await expect(canvas.getByText('🤔')).toBeInTheDocument();
       await expect(canvas.getByText('Not quite right.')).toBeInTheDocument();
@@ -106,7 +107,8 @@ export const MathContradiction: Story = {
   args: {
     data: {
       ...defaultData,
-      content: '## Identify the Mathematical Contradiction\n\nDrag the statements that contradict each other into the boxes.',
+      content:
+        '## Identify the Mathematical Contradiction\n\nDrag the statements that contradict each other into the boxes.',
       questionData: {
         choices: [
           { key: 'A', content: 'For all real numbers $x$, we have $x^2 \\geq 0$.' },
@@ -115,18 +117,20 @@ export const MathContradiction: Story = {
           { key: 'D', content: 'The equation $x^2 + 1 = 0$ has no real solutions.' },
         ],
         answer: ['A', 'B'],
-        explanation: 'The statements "For all real numbers $x$, we have $x^2 \\geq 0$" and "There exists a real number $x$ such that $x^2 < 0$" directly contradict each other.',
+        explanation:
+          'The statements "For all real numbers $x$, we have $x^2 \\geq 0$" and "There exists a real number $x$ such that $x^2 < 0$" directly contradict each other.',
       },
-      getText: () => 'Identify the Mathematical Contradiction. Drag the statements that contradict each other into the boxes.',
+      getText: () =>
+        'Identify the Mathematical Contradiction. Drag the statements that contradict each other into the boxes.',
     },
     status: BlockStatus.IN_PROGRESS,
     onSubmit: async (data, submittedAnswer) => {
       console.log('Submitted:', data.id, 'Answer:', submittedAnswer);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
     onContinue: async (data) => {
       console.log('Continue:', data.id);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
   },
 };
@@ -167,10 +171,12 @@ export const TwoContradictionBlocks: Story = {
           { key: 'Z', content: 'Some birds build nests in trees.' },
         ],
         answer: ['X', 'Y'],
-        explanation: 'The statements "All birds can fly" and "Penguins are birds that cannot fly" directly contradict each other.',
+        explanation:
+          'The statements "All birds can fly" and "Penguins are birds that cannot fly" directly contradict each other.',
       },
       updatedAt: new Date('2024-01-01'),
-      getText: () => 'Block 2: Logic Contradiction. Drag the statements that contradict each other.',
+      getText: () =>
+        'Block 2: Logic Contradiction. Drag the statements that contradict each other.',
     };
 
     return (
@@ -179,33 +185,34 @@ export const TwoContradictionBlocks: Story = {
           <h2 className="text-lg font-bold mb-4">Testing Isolation Between Contradiction Blocks</h2>
           <p className="mb-4">
             This story tests that two ContradictionBlocks on the same page are properly isolated.
-            You should be able to drag items in each block independently without affecting the other block.
+            You should be able to drag items in each block independently without affecting the other
+            block.
           </p>
         </div>
-        
+
         <ContradictionBlock
           data={data1}
           status={BlockStatus.IN_PROGRESS}
           onSubmit={async (data, submittedAnswer) => {
             console.log('Block 1 Submitted:', data.id, 'Answer:', submittedAnswer);
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
           }}
           onContinue={async (data) => {
             console.log('Block 1 Continue:', data.id);
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
           }}
         />
-        
+
         <ContradictionBlock
           data={data2}
           status={BlockStatus.IN_PROGRESS}
           onSubmit={async (data, submittedAnswer) => {
             console.log('Block 2 Submitted:', data.id, 'Answer:', submittedAnswer);
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
           }}
           onContinue={async (data) => {
             console.log('Block 2 Continue:', data.id);
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
           }}
         />
       </div>
@@ -216,20 +223,20 @@ export const TwoContradictionBlocks: Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    
+
     await step('验证两个矛盾块都已渲染', async () => {
       await expect(canvas.getByText('Block 1: Math Contradiction')).toBeInTheDocument();
       await expect(canvas.getByText('Block 2: Logic Contradiction')).toBeInTheDocument();
     });
-    
+
     await step('验证每个矛盾块的选项都已渲染', async () => {
       // 第一个矛盾块的选项
       await expect(canvas.getByText('2 + 2 = 4')).toBeInTheDocument();
       await expect(canvas.getByText('2 + 2 = 5')).toBeInTheDocument();
-      
+
       // 第二个矛盾块的选项
       await expect(canvas.getByText('All birds can fly.')).toBeInTheDocument();
       await expect(canvas.getByText('Penguins are birds that cannot fly.')).toBeInTheDocument();
     });
   },
-}; 
+};

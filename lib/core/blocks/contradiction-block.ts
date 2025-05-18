@@ -69,7 +69,7 @@ export class ContradictionBlockData implements BlockSchema {
     for (const key of answer) {
       if (!choiceKeys.includes(key)) {
         throw new Error(
-          `Answer key "${key}" does not exist in choices (${choiceKeys.join(', ')}) for block ID: ${block.id}`
+          `Answer key "${key}" does not exist in choices (${choiceKeys.join(', ')}) for block ID: ${block.id}`,
         );
       }
     }
@@ -137,7 +137,7 @@ export class ContradictionBlockData implements BlockSchema {
         answer,
         explanation: properties.explanation || '',
       },
-      markdown.name
+      markdown.name,
     );
 
     this.validate(block); // Validate the constructed block

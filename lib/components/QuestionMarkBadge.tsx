@@ -1,12 +1,7 @@
 'use client';
 
-import { cn } from "./ui/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
+import { cn } from './ui/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { MarkdownContent } from './MarkdownContent';
 
 export interface QuestionMarkBadgeProps {
@@ -33,29 +28,28 @@ const colorStyles = {
   red: 'bg-red-100 text-red-700 hover:bg-red-200',
 } as const;
 
-export function QuestionMarkBadge({
-  content,
-  color = 'gray',
-  className,
-}: QuestionMarkBadgeProps) {
+export function QuestionMarkBadge({ content, color = 'gray', className }: QuestionMarkBadgeProps) {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div 
+          <div
             className={cn(
-              "inline-flex items-center justify-center w-5 h-5 rounded-full cursor-help transition-colors",
+              'inline-flex items-center justify-center w-5 h-5 rounded-full cursor-help transition-colors',
               colorStyles[color],
-              className
+              className,
             )}
           >
             <span className="text-xs font-medium">?</span>
           </div>
         </TooltipTrigger>
         <TooltipContent className="bg-slate-800 text-white border-slate-700">
-            <div className="text-white">
-              <MarkdownContent content={content} className="prose-invert prose-sm max-w-none text-white" />
-            </div>
+          <div className="text-white">
+            <MarkdownContent
+              content={content}
+              className="prose-invert prose-sm max-w-none text-white"
+            />
+          </div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -55,7 +55,7 @@ describe('ParaBlockData', () => {
         rawTokens: tokens,
       };
       expect(() => ParaBlockData.fromMarkdown(markdownBlock)).toThrow(
-        'Content cannot be empty for block ID: empty-md-id'
+        'Content cannot be empty for block ID: empty-md-id',
       );
     });
 
@@ -68,7 +68,7 @@ describe('ParaBlockData', () => {
         rawTokens: tokens,
       };
       expect(() => ParaBlockData.fromMarkdown(markdownBlock)).toThrow(
-        'Content cannot be empty for block ID: whitespace-md-id'
+        'Content cannot be empty for block ID: whitespace-md-id',
       );
     });
 
@@ -81,7 +81,7 @@ describe('ParaBlockData', () => {
         rawTokens: tokens,
       };
       expect(() => ParaBlockData.fromMarkdown(markdownBlock)).toThrow(
-        'Content cannot be empty for block ID: empty-prop-id'
+        'Content cannot be empty for block ID: empty-prop-id',
       );
     });
 
@@ -94,7 +94,7 @@ describe('ParaBlockData', () => {
         rawTokens: tokens,
       };
       expect(() => ParaBlockData.fromMarkdown(markdownBlock)).toThrow(
-        'Content cannot be empty for block ID: whitespace-prop-id'
+        'Content cannot be empty for block ID: whitespace-prop-id',
       );
     });
   });

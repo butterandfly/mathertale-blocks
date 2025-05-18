@@ -97,7 +97,7 @@ Content of unknown block.
 `;
 
     expect(() => convertQuestMarkdown(markdown)).toThrow(
-      'No converter registered for block type: unknown'
+      'No converter registered for block type: unknown',
     );
   });
 

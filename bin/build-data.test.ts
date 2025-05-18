@@ -25,7 +25,10 @@ describe('buildAllSoloQuestData', () => {
 
     // Check if individual solo quest files are created
     soloquests.forEach((soloquest: SoloQuestShortSchema) => {
-      const soloquestPath = path.join(testDataDir + '/output/soloquests', `soloquest-${soloquest.id}.json`);
+      const soloquestPath = path.join(
+        testDataDir + '/output/soloquests',
+        `soloquest-${soloquest.id}.json`,
+      );
       expect(existsSync(soloquestPath)).toBeTruthy();
 
       const soloquestData = JSON.parse(readFileSync(soloquestPath, 'utf8'));

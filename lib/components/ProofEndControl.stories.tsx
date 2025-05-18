@@ -26,10 +26,10 @@ export const Initial: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Check if the title exists
     await expect(canvas.getByText('Choose the tombstone for this proof:')).toBeInTheDocument();
-    
+
     // Check if all emoji buttons are rendered
     await expect(canvas.getByText('🪦')).toBeInTheDocument();
     await expect(canvas.getByText('❤️')).toBeInTheDocument();
@@ -48,12 +48,14 @@ export const WithSelectedTombstone: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Check if the selected tombstone is displayed
     await expect(canvas.getByText('🪦')).toBeInTheDocument();
-    
+
     // Check that the selection UI is not shown
-    await expect(canvas.queryByText('Choose the tombstone for this proof:')).not.toBeInTheDocument();
+    await expect(
+      canvas.queryByText('Choose the tombstone for this proof:'),
+    ).not.toBeInTheDocument();
   },
 };
 
@@ -61,7 +63,7 @@ export const WithSelectedTombstone: Story = {
 export const Interactive: Story = {
   render: function Render() {
     const [continueValue, setContinueValue] = useState<string | undefined>(undefined);
-    
+
     return (
       <div className="space-y-4">
         <ProofEndControl
@@ -71,12 +73,10 @@ export const Interactive: Story = {
             setContinueValue(tombstone);
           }}
         />
-        
+
         <div className="mt-4 p-4 bg-slate-100 rounded-lg">
           <p className="text-sm text-slate-500">
-            {continueValue 
-              ? `Selected ending: ${continueValue}` 
-              : 'No ending selected yet'}
+            {continueValue ? `Selected ending: ${continueValue}` : 'No ending selected yet'}
           </p>
           <button
             onClick={() => setContinueValue(undefined)}
@@ -94,13 +94,16 @@ export const Interactive: Story = {
 export const AllTombstones: Story = {
   render: function Render() {
     const tombstones: ProofTombstone[] = ['🪦', '❤️', '🌼', '□'];
-    
+
     return (
       <div className="space-y-6">
         <h3 className="text-lg font-medium text-slate-700">All available proof endings:</h3>
-        
-        {tombstones.map(tombstone => (
-          <div key={tombstone} className="p-4 border rounded-lg">
+
+        {tombstones.map((tombstone) => (
+          <div
+            key={tombstone}
+            className="p-4 border rounded-lg"
+          >
             <ProofEndControl
               continueValue={tombstone}
               onSelect={async () => {}}
@@ -110,4 +113,4 @@ export const AllTombstones: Story = {
       </div>
     );
   },
-}; 
+};

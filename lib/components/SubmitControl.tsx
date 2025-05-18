@@ -7,7 +7,7 @@ interface SubmitControlProps {
   isSubmitted: boolean;
   isCorrect?: boolean;
   explanation?: string;
-  
+
   // 提交相关
   isSubmitEnabled?: boolean;
   onSubmit: () => Promise<void>;
@@ -47,9 +47,7 @@ export function SubmitControl({
         >
           {isLoading ? 'Submitting...' : 'Submit'}
         </Button>
-        {error && (
-          <p className="text-sm text-red-500">{error}</p>
-        )}
+        {error && <p className="text-sm text-red-500">{error}</p>}
       </div>
     );
   }
@@ -72,7 +70,7 @@ export function SubmitControl({
           )}
         </div>
         {explanation && (
-          <button 
+          <button
             onClick={() => setShowExplanation(!showExplanation)}
             className="text-sm text-gray-600 hover:text-gray-900 underline"
           >
@@ -89,4 +87,4 @@ export function SubmitControl({
       )}
     </div>
   );
-} 
+}

@@ -7,7 +7,7 @@ import { type OrderItem, type ProofReorderBlockData } from '../core/blocks/proof
 import { ProofEndControl, type ProofTombstone } from './ProofEndControl';
 import { BlockHeadline } from './BlockHeadline';
 
-const questionMarkContent = "Drag the items to reorder the proof";
+const questionMarkContent = 'Drag the items to reorder the proof';
 
 export interface ProofReorderBlockProps {
   data: ProofReorderBlockData;
@@ -25,7 +25,7 @@ export function ProofReorderBlock({
   submittedAnswer,
   continueValue,
 }: ProofReorderBlockProps) {
-  const { orderItems, questionOrder } = data.questionData;  
+  const { orderItems, questionOrder } = data.questionData;
 
   let initialItems: OrderItem[] = [];
   if (submittedAnswer === undefined) {
@@ -38,8 +38,8 @@ export function ProofReorderBlock({
 
   // Use useMemo and markdowns to build the explanation
   const explanation = useMemo(() => {
-    const contents = data.questionData.orderItems.map((item) => item.content )
-    return contents.join('\n')
+    const contents = data.questionData.orderItems.map((item) => item.content);
+    return contents.join('\n');
   }, [data.questionData.orderItems]);
 
   const isCorrect = useMemo(() => {
@@ -53,7 +53,7 @@ export function ProofReorderBlock({
 
   const handleSubmit = async () => {
     // 将当前顺序转换为答案字符串（使用 id 列表）
-    const submittedAnswer = currentItems.map(item => item.id).join(',');
+    const submittedAnswer = currentItems.map((item) => item.id).join(',');
     await onSubmit(data, submittedAnswer);
   };
 
@@ -63,25 +63,28 @@ export function ProofReorderBlock({
 
   return (
     <div className="space-y-6">
-      <BlockHeadline title="Proof" questionMarkContent={questionMarkContent} />
+      <BlockHeadline
+        title="Proof"
+        questionMarkContent={questionMarkContent}
+      />
 
-        <MarkdownContent content={data.content} />
-        
-        <ReorderContent
-          items={currentItems}
-          disabled={submittedAnswer !== undefined}
-          highlight={highlight}
-          onOrderChange={newItems => {
-            setCurrentItems(newItems);
-          }}
-        />
+      <MarkdownContent content={data.content} />
 
-        <SubmitControl
-          isSubmitted={submittedAnswer !== undefined}
-          isCorrect={isCorrect}
-          isSubmitEnabled={true}
-          onSubmit={handleSubmit}
-        />
+      <ReorderContent
+        items={currentItems}
+        disabled={submittedAnswer !== undefined}
+        highlight={highlight}
+        onOrderChange={(newItems) => {
+          setCurrentItems(newItems);
+        }}
+      />
+
+      <SubmitControl
+        isSubmitted={submittedAnswer !== undefined}
+        isCorrect={isCorrect}
+        isSubmitEnabled={true}
+        onSubmit={handleSubmit}
+      />
 
       {submittedAnswer !== undefined && explanation && (
         <div className="bg-blue-50 p-4 rounded-lg space-y-2">
@@ -91,7 +94,7 @@ export function ProofReorderBlock({
       )}
 
       {submittedAnswer !== undefined && (
-        <ProofEndControl 
+        <ProofEndControl
           continueValue={continueValue}
           onSelect={handleTombstoneSelect}
         />
@@ -106,7 +109,7 @@ export function renderProofReorderBlock(
   onContinue: (data: ProofReorderBlockData, continueValue?: string) => Promise<void>,
   submittedAnswer?: string,
   onSubmit?: (data: ProofReorderBlockData, submittedAnswer: string) => Promise<void>,
-  continueValue?: string
+  continueValue?: string,
 ) {
   return (
     <ProofReorderBlock
@@ -123,10 +126,10 @@ export function renderProofReorderBlock(
 
 /**
  * 根据 order 重新排序 items
- * @param items 
+ * @param items
  * @param order Example: "1,2,3"
- * @returns 
+ * @returns
  */
 export function reorderItems(items: OrderItem[], order: string) {
-  return order.split(',').map(o => items.find(m => m.id === o)) as OrderItem[];
+  return order.split(',').map((o) => items.find((m) => m.id === o)) as OrderItem[];
 }

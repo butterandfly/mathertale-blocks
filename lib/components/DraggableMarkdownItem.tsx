@@ -32,15 +32,8 @@ export function DraggableMarkdownItem({
   // 使用 sortable 或 draggable hook 根据 sortable 属性
   if (sortable) {
     // 使用 useSortable hook
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      transition,
-      isDragging,
-    } = useSortable({ 
-      id, 
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+      id,
       disabled,
       data: {
         containerGroup,
@@ -74,7 +67,7 @@ export function DraggableMarkdownItem({
           isDragging && 'opacity-70 shadow-lg',
           disabled && 'cursor-not-allowed opacity-70',
           !disabled && 'transition-colors hover:bg-slate-50',
-          className
+          className,
         )}
       >
         {showHandle && (
@@ -82,9 +75,9 @@ export function DraggableMarkdownItem({
             {...attributes}
             {...listeners}
             className={cn(
-              "absolute left-2 top-1/2 -translate-y-1/2",
-              !disabled && "cursor-grab active:cursor-grabbing",
-              disabled && "cursor-default opacity-50"
+              'absolute left-2 top-1/2 -translate-y-1/2',
+              !disabled && 'cursor-grab active:cursor-grabbing',
+              disabled && 'cursor-default opacity-50',
             )}
           >
             <GripVertical className="h-5 w-5 text-slate-400" />
@@ -97,13 +90,7 @@ export function DraggableMarkdownItem({
     );
   } else {
     // 使用 useDraggable hook
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      isDragging,
-    } = useDraggable({
+    const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
       id,
       data: {
         containerGroup,
@@ -140,11 +127,11 @@ export function DraggableMarkdownItem({
           isDragging && 'opacity-70 shadow-lg',
           disabled && 'cursor-not-allowed opacity-70',
           !disabled && 'cursor-grab active:cursor-grabbing hover:border-slate-300',
-          className
+          className,
         )}
       >
         <MarkdownContent content={content} />
       </div>
     );
   }
-} 
+}

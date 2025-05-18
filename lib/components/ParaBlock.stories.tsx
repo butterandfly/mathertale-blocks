@@ -63,14 +63,15 @@ export const Completed: Story = {
     },
     onContinue: () => Promise.resolve(),
   },
-}; 
+};
 
 export const SVGContent: Story = {
   args: {
     data: {
       ...defaultData,
       id: '4',
-      content: '<svg width="300" height="180"><circle id="circleA" cx="100" cy="100" r="50" fill="rgb(168, 168, 168)" /><path d="M100 100 L150 100" stroke="rgb(168, 168, 168)" stroke-width="2" /></svg>',
+      content:
+        '<svg width="300" height="180"><circle id="circleA" cx="100" cy="100" r="50" fill="rgb(168, 168, 168)" /><path d="M100 100 L150 100" stroke="rgb(168, 168, 168)" stroke-width="2" /></svg>',
       getText: () => '这是一个 SVG 内容。',
     },
     blockProgress: {

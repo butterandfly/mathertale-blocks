@@ -63,7 +63,7 @@ function processListItems(
   items: any[],
   result: string[],
   level: number = 0,
-  isOrdered = false
+  isOrdered = false,
 ): void {
   for (const item of items) {
     // 添加列表项，带有适当的缩进
@@ -263,7 +263,7 @@ export function extractProperties(tokens: Token[]): {
  */
 export function checkRequiredProperties(
   properties: Record<string, string>,
-  requiredProperties: string[]
+  requiredProperties: string[],
 ): void {
   requiredProperties.forEach((property: string) => {
     if (!properties[property]) {

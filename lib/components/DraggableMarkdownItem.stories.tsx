@@ -32,7 +32,7 @@ export const Basic: Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    
+
     await step('Wait for content to load', async () => {
       await expect(canvas.getByText('Draggable Item')).toBeInTheDocument();
     });
@@ -42,14 +42,16 @@ export const Basic: Story = {
 export const WithMathContent: Story = {
   args: {
     id: 'item-math',
-    content: '## Math Content\nWhen $a \\ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are:\n\n$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$',
+    content:
+      '## Math Content\nWhen $a \\ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are:\n\n$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$',
   },
 };
 
 export const WithCodeContent: Story = {
   args: {
     id: 'item-code',
-    content: '## Code Content\n```typescript\nfunction greet(name: string) {\n  return `Hello, ${name}!`;\n}\n```',
+    content:
+      '## Code Content\n```typescript\nfunction greet(name: string) {\n  return `Hello, ${name}!`;\n}\n```',
   },
 };
 
@@ -59,4 +61,4 @@ export const Disabled: Story = {
     content: '## Disabled Item\nThis item cannot be dragged.',
     disabled: true,
   },
-}; 
+};

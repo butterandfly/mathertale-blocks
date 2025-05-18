@@ -4,13 +4,13 @@ import { MarkdownContent } from './MarkdownContent';
 import { BlockStatus, type BlockSchema } from '../core/schemas';
 import { HighlightBox } from './HighlightBox';
 import { BlockProgressControl } from './BlockProgressControl';
-import { 
-  DefinitionType, 
-  TheoremType, 
-  PropositionType, 
-  RemarkType, 
+import {
+  DefinitionType,
+  TheoremType,
+  PropositionType,
+  RemarkType,
   LemmaType,
-  type NotedBlockData 
+  type NotedBlockData,
 } from '../core/blocks/noted-block';
 
 export interface NotedBlockProps {
@@ -21,13 +21,7 @@ export interface NotedBlockProps {
   onContinue: (data: NotedBlockData) => Promise<void>;
 }
 
-export function NotedBlock({
-  data,
-  status,
-  tag,
-  theme,
-  onContinue,
-}: NotedBlockProps) {
+export function NotedBlock({ data, status, tag, theme, onContinue }: NotedBlockProps) {
   // const [showSaved, setShowSaved] = useState(false);
   const fullContent = `### ${data.name}\n\n${data.content}`;
 
@@ -38,7 +32,10 @@ export function NotedBlock({
   return (
     <div className="space-y-4">
       <div className="relative">
-        <HighlightBox theme={theme} tag={tag}>
+        <HighlightBox
+          theme={theme}
+          tag={tag}
+        >
           <MarkdownContent content={fullContent} />
         </HighlightBox>
 
@@ -58,10 +55,10 @@ export function NotedBlock({
         </div> */}
       </div>
 
-        <BlockProgressControl 
+      <BlockProgressControl
         status={status}
         onContinue={() => handleContinue()}
-        />
+      />
     </div>
   );
 }
@@ -74,7 +71,7 @@ export function NotedBlock({
 export function renderDefinitionBlock(
   block: BlockSchema,
   status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>
+  onContinue: (data: NotedBlockData) => Promise<void>,
 ) {
   return (
     <NotedBlock
@@ -91,7 +88,7 @@ export function renderDefinitionBlock(
 export function renderTheoremBlock(
   block: BlockSchema,
   status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>
+  onContinue: (data: NotedBlockData) => Promise<void>,
 ) {
   return (
     <NotedBlock
@@ -108,7 +105,7 @@ export function renderTheoremBlock(
 export function renderPropositionBlock(
   block: BlockSchema,
   status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>
+  onContinue: (data: NotedBlockData) => Promise<void>,
 ) {
   return (
     <NotedBlock
@@ -125,7 +122,7 @@ export function renderPropositionBlock(
 export function renderLemmaBlock(
   block: BlockSchema,
   status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>
+  onContinue: (data: NotedBlockData) => Promise<void>,
 ) {
   return (
     <NotedBlock
@@ -142,7 +139,7 @@ export function renderLemmaBlock(
 export function renderRemarkBlock(
   block: BlockSchema,
   status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>
+  onContinue: (data: NotedBlockData) => Promise<void>,
 ) {
   return (
     <NotedBlock
@@ -155,4 +152,3 @@ export function renderRemarkBlock(
     />
   );
 }
-

@@ -1,4 +1,10 @@
-import { type QuestSchema, type JourneySchema, type QuestShortSchema, Category, type DevStatus } from './schemas';
+import {
+  type QuestSchema,
+  type JourneySchema,
+  type QuestShortSchema,
+  Category,
+  type DevStatus,
+} from './schemas';
 
 export interface CanvasNode {
   id: string;
@@ -82,7 +88,7 @@ export function findQuestNode(canvasData: CanvasData): CanvasNode | undefined {
  */
 export function convertJourneyCanvas(
   journeyCanvasData: CanvasData,
-  questMap: Record<string, QuestSchema>
+  questMap: Record<string, QuestSchema>,
 ): JourneySchema {
   const journeyNode = findJourneyNode(journeyCanvasData);
   if (!journeyNode) {

@@ -221,7 +221,7 @@ function validateBlockIds(quest: MarkdownQuest): void {
 
         throw new Error(
           `Block ID is missing! Details: ${JSON.stringify(errorInfo, null, 2)}\n` +
-            `This block appears in section "${section.name}" at position ${blockIndex + 1}`
+            `This block appears in section "${section.name}" at position ${blockIndex + 1}`,
         );
       }
     });

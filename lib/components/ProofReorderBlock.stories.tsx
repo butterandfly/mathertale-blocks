@@ -43,7 +43,6 @@ const sampleData: ProofReorderBlockData = {
   getText: () => '请将以下证明步骤排序：',
 };
 
-
 // 初始状态：未提交答案
 export const Initial: Story = {
   args: {
@@ -57,10 +56,10 @@ export const Initial: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // 检查标题是否存在
     await expect(canvas.getByText('Proof')).toBeInTheDocument();
-    
+
     // 检查内容是否按照 questionOrder 的顺序渲染
     const items = canvas.getAllByRole('button');
     expect(items).toHaveLength(4);
@@ -70,11 +69,11 @@ export const Initial: Story = {
 // 提交正确答案后的状态
 export const CorrectAnswer: Story = {
   args: {
-    data: { 
+    data: {
       ...sampleData,
-      questionData: { 
-        ...sampleData.questionData, 
-        questionOrder: '1,2,3' 
+      questionData: {
+        ...sampleData.questionData,
+        questionOrder: '1,2,3',
       },
       getText: () => '请将以下证明步骤排序：',
     },
@@ -86,10 +85,10 @@ export const CorrectAnswer: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // 检查是否显示正确提示
     await expect(canvas.getByText('Correct!')).toBeInTheDocument();
-    
+
     // 检查是否有emoji按钮
     await expect(canvas.getByText('🪦')).toBeInTheDocument();
     await expect(canvas.getByText('❤️')).toBeInTheDocument();
@@ -110,10 +109,10 @@ export const WrongAnswer: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // 检查是否显示错误提示
     await expect(canvas.getByText('Not quite right.')).toBeInTheDocument();
-    
+
     // 检查是否有emoji按钮
     await expect(canvas.getByText('🪦')).toBeInTheDocument();
     await expect(canvas.getByText('❤️')).toBeInTheDocument();
@@ -127,7 +126,7 @@ export const Interactive: Story = {
     const [submittedAnswer, setSubmittedAnswer] = useState<string | undefined>(undefined);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, setContinueValue] = useState<string | undefined>(undefined);
-    
+
     return (
       <div className="space-y-4">
         <ProofReorderBlock
@@ -143,7 +142,7 @@ export const Interactive: Story = {
             setContinueValue(continueValue);
           }}
         />
-        
+
         {/* {selectedTombstone && (
           <div className="mt-4 p-4 bg-slate-100 rounded-lg">
             <p className="text-center">Selected ending: <span className="text-2xl">{selectedTombstone}</span></p>
@@ -152,4 +151,4 @@ export const Interactive: Story = {
       </div>
     );
   },
-}; 
+};

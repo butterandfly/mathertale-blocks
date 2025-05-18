@@ -138,7 +138,7 @@ The explanation text.`;
       });
 
       expect(() => SingleChoiceBlockData.validate(block)).toThrow(
-        'Answer "b" is not a valid choice key'
+        'Answer "b" is not a valid choice key',
       );
     });
   });
@@ -307,7 +307,7 @@ Explanation here.
         id: 'test-id',
         rawTokens: tokens,
         tag: 'single-choice',
-      })
+      }),
     ).toThrow('Choices cannot be empty for block ID: test-id');
   });
 
@@ -327,7 +327,7 @@ Explanation here.
         id: 'test-id',
         rawTokens: tokens,
         tag: 'single-choice',
-      })
+      }),
     ).toThrow('Answer is required for block ID: test-id');
   });
 

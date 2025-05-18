@@ -16,7 +16,7 @@ export function BlockHeadline({ title, questionMarkContent }: BlockHeadlineProps
       <div className="flex items-center gap-1">
         <span className="text-slate-600 font-semibold text-lg">{title}</span>
         {questionMarkContent && (
-          <QuestionMarkBadge 
+          <QuestionMarkBadge
             content={questionMarkContent}
             color="gray"
           />
@@ -25,4 +25,4 @@ export function BlockHeadline({ title, questionMarkContent }: BlockHeadlineProps
       <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
     </div>
   );
-} 
+}

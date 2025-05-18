@@ -28,29 +28,29 @@ interface ReorderContentProps {
   showHandles?: boolean;
 }
 
-export function ReorderContent({ 
-  items, 
+export function ReorderContent({
+  items,
   disabled = false,
   highlight = 'none',
   onOrderChange,
-  showHandles = false
+  showHandles = false,
 }: ReorderContentProps) {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function handleDragEnd(event: DragEndEvent) {
     if (disabled) return;
-    
+
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
-      
+
       const newItems = arrayMove(items, oldIndex, newIndex);
       onOrderChange?.(newItems);
     }
@@ -68,8 +68,8 @@ export function ReorderContent({
           strategy={verticalListSortingStrategy}
         >
           {items.map((item) => (
-            <DraggableMarkdownItem 
-              key={item.id} 
+            <DraggableMarkdownItem
+              key={item.id}
               id={item.id}
               content={item.content}
               disabled={disabled}
@@ -82,4 +82,4 @@ export function ReorderContent({
       </div>
     </DndContext>
   );
-} 
+}

@@ -94,7 +94,7 @@ First part content
       };
 
       expect(() => ProofReorderBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Parts cannot be empty for block ID: test-id'
+        'Parts cannot be empty for block ID: test-id',
       );
     });
 
@@ -112,7 +112,7 @@ First part content`;
       };
 
       expect(() => ProofReorderBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Question order is required for block ID: test-id'
+        'Question order is required for block ID: test-id',
       );
     });
 
@@ -136,7 +136,7 @@ Second part content
       };
 
       expect(() => ProofReorderBlockData.fromMarkdown(blockRaw)).toThrow(
-        'Number of parts (2) does not match the length of question order (1) for block ID: test-id'
+        'Number of parts (2) does not match the length of question order (1) for block ID: test-id',
       );
     });
   });
@@ -153,7 +153,7 @@ Second part content
 
       const text = block.getText();
       expect(text).toBe(
-        'Proof:\n\nMain content\n\n' + 'part-1:\nFirst part\n\n' + 'part-2:\nSecond part\n\n'
+        'Proof:\n\nMain content\n\n' + 'part-1:\nFirst part\n\n' + 'part-2:\nSecond part\n\n',
       );
     });
 

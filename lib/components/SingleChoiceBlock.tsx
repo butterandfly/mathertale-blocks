@@ -46,32 +46,40 @@ export function SingleChoiceBlock({
 
   return (
     <div className="space-y-6">
-      <HighlightBox theme="gray" withBackground={false} tag="Single Choice" className="space-y-6">
+      <HighlightBox
+        theme="gray"
+        withBackground={false}
+        tag="Single Choice"
+        className="space-y-6"
+      >
         <MarkdownContent content={data.content} />
-        
+
         <RadioGroup
-          value={selectedChoice || ""}
+          value={selectedChoice || ''}
           onValueChange={handleChoiceChange}
           className="space-y-2"
           disabled={submittedAnswer !== undefined}
         >
           {data.questionData.choices.map((choice) => (
-            <Label 
+            <Label
               key={choice.key}
               htmlFor={`choice-${data.id}-${choice.key}`}
               className={cn(
-                "block relative p-3 rounded-lg transition-all",
-                "bg-gray-50 border-2 border-transparent",
-                answer === null && status !== BlockStatus.COMPLETED && [
-                  "cursor-pointer",
-                  selectedChoice !== choice.key && "hover:border-gray-200",
-                  selectedChoice === choice.key && "border-gray-900",
-                ],
+                'block relative p-3 rounded-lg transition-all',
+                'bg-gray-50 border-2 border-transparent',
+                answer === null &&
+                  status !== BlockStatus.COMPLETED && [
+                    'cursor-pointer',
+                    selectedChoice !== choice.key && 'hover:border-gray-200',
+                    selectedChoice === choice.key && 'border-gray-900',
+                  ],
                 answer !== null && [
-                  answer === choice.key && "bg-green-50 border-green-500",
-                  submittedAnswer === choice.key && answer !== choice.key && "bg-red-50 border-red-500",
+                  answer === choice.key && 'bg-green-50 border-green-500',
+                  submittedAnswer === choice.key &&
+                    answer !== choice.key &&
+                    'bg-red-50 border-red-500',
                 ],
-                (answer !== null || status === BlockStatus.COMPLETED) && "cursor-default"
+                (answer !== null || status === BlockStatus.COMPLETED) && 'cursor-default',
               )}
             >
               <RadioGroupItem
@@ -97,7 +105,7 @@ export function SingleChoiceBlock({
       </HighlightBox>
 
       {submittedAnswer !== undefined && (
-        <BlockProgressControl 
+        <BlockProgressControl
           status={status}
           onContinue={() => onContinue(data)}
         />
@@ -111,7 +119,7 @@ export function renderSingleChoiceBlock(
   status: BlockStatus,
   onContinue: (data: SingleChoiceBlockData) => Promise<void>,
   submittedAnswer?: string,
-  onSubmit?: (data: SingleChoiceBlockData, submittedAnswer: string) => Promise<void>
+  onSubmit?: (data: SingleChoiceBlockData, submittedAnswer: string) => Promise<void>,
 ) {
   return (
     <SingleChoiceBlock
@@ -123,4 +131,4 @@ export function renderSingleChoiceBlock(
       onContinue={onContinue}
     />
   );
-} 
+}
