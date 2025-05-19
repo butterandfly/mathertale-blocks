@@ -3,7 +3,7 @@ import { ReorderContent } from './ReorderContent';
 import { expect, within } from '@storybook/test';
 
 const meta = {
-  title: 'Blocks/ReorderContent',
+  title: 'Components/ReorderContent',
   component: ReorderContent,
   parameters: {
     layout: 'centered',

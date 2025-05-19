@@ -5,7 +5,7 @@ import { userEvent, within } from '@storybook/test';
 import { expect } from '@storybook/test';
 
 const meta = {
-  title: 'Blocks/BlockProgressControl',
+  title: 'Components/BlockProgressControl',
   component: BlockProgressControl,
   parameters: {
     layout: 'centered',

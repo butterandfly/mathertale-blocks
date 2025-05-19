@@ -1,8 +1,6 @@
-'use client';
-
 import { useMemo, useState } from 'react';
 import { MarkdownContent } from './MarkdownContent';
-import { type BlockSchema, BlockStatus } from '../core/schemas';
+import { BlockStatus } from '../core/schemas';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { HighlightBox } from './HighlightBox';
@@ -10,13 +8,11 @@ import { BlockProgressControl } from './BlockProgressControl';
 import { cn } from './ui/utils';
 import { SubmitControl } from './SubmitControl';
 import { type SingleChoiceBlockData } from '../core/blocks/single-choice-block';
+import { type BaseQuestionBlockProps } from './components';
 
-export interface SingleChoiceBlockProps {
-  data: SingleChoiceBlockData;
+export interface SingleChoiceBlockProps extends BaseQuestionBlockProps<SingleChoiceBlockData> {
   submittedAnswer?: string;
-  status: BlockStatus;
   onSubmit: (data: SingleChoiceBlockData, submittedAnswer: string) => Promise<void>;
-  onContinue: (data: SingleChoiceBlockData) => Promise<void>;
 }
 
 export function SingleChoiceBlock({
@@ -114,17 +110,17 @@ export function SingleChoiceBlock({
   );
 }
 
-export function renderSingleChoiceBlock(
-  block: BlockSchema,
-  status: BlockStatus,
-  onContinue: (data: SingleChoiceBlockData) => Promise<void>,
-  submittedAnswer?: string,
-  onSubmit?: (data: SingleChoiceBlockData, submittedAnswer: string) => Promise<void>,
-) {
+export function renderSingleChoiceBlock({
+  data,
+  status,
+  onContinue,
+  submittedAnswer,
+  onSubmit,
+}: SingleChoiceBlockProps) {
   return (
     <SingleChoiceBlock
-      key={block.id}
-      data={block as SingleChoiceBlockData}
+      key={data.id}
+      data={data}
       status={status}
       submittedAnswer={submittedAnswer}
       onSubmit={onSubmit!}

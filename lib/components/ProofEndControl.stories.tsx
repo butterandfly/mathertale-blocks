@@ -6,7 +6,7 @@ import { expect, within } from '@storybook/test';
 import { useState } from 'react';
 
 const meta = {
-  title: 'Blocks/ProofEndControl',
+  title: 'Components/ProofEndControl',
   component: ProofEndControl,
   parameters: {
     layout: 'centered',

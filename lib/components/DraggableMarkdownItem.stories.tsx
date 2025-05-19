@@ -6,7 +6,7 @@ import { expect, within } from '@storybook/test';
 import { DndContext } from '@dnd-kit/core';
 
 const meta = {
-  title: 'Blocks/DraggableMarkdownItem',
+  title: 'Components/DraggableMarkdownItem',
   component: DraggableMarkdownItem,
   parameters: {
     layout: 'centered',

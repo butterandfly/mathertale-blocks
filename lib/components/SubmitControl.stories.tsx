@@ -4,7 +4,7 @@ import { expect, within } from '@storybook/test';
 import { userEvent } from '@storybook/test';
 
 const meta = {
-  title: 'Blocks/SubmitControl',
+  title: 'Components/SubmitControl',
   component: SubmitControl,
   parameters: {
     layout: 'centered',

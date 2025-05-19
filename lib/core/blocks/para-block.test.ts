@@ -7,7 +7,10 @@ import { ParaBlockData, ParaType } from './para-block';
 describe('ParaBlockData', () => {
   describe('fromMarkdown', () => {
     it('should convert markdown block to para block', () => {
-      const markdownContent = 'Test content';
+      const markdownContent = `Test content
+
+#### Headline 
+Title`;
       const tokens = marked.lexer(markdownContent);
 
       const markdownBlock: MarkdownBlock = {
@@ -22,6 +25,7 @@ describe('ParaBlockData', () => {
         id: 'test-id',
         content: 'Test content',
         type: ParaType,
+        headline: 'Title',
       });
       expect(result.updatedAt).toBeInstanceOf(Date);
     });

@@ -6,7 +6,7 @@ import { DraggableMarkdownItem } from './DraggableMarkdownItem';
 import { DndContext } from '@dnd-kit/core';
 
 const meta = {
-  title: 'Blocks/DropBox',
+  title: 'Components/DropBox',
   component: DropBox,
   parameters: {
     layout: 'centered',

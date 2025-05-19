@@ -3,7 +3,7 @@ import { BlockHeadline } from './BlockHeadline';
 import { expect, within } from '@storybook/test';
 
 const meta: Meta<typeof BlockHeadline> = {
-  title: 'Blocks/BlockHeadline',
+  title: 'Components/BlockHeadline',
   component: BlockHeadline,
   parameters: {
     layout: 'centered',

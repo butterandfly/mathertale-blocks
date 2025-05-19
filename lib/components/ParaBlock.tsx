@@ -1,40 +1,34 @@
 import { MarkdownContent } from './MarkdownContent';
-import { type BlockSchema as Block, type BlockStatus } from '../core/schemas';
+import { type BlockStatus } from '../core/schemas';
 import { BlockProgressControl } from './BlockProgressControl';
 import { type ParaBlockData } from '../core/blocks/para-block';
+import { type BaseBlockProps, type BlockRenderer } from './components';
+import { BlockHeadline } from './BlockHeadline';
 
-interface BlockProgress {
-  blockId: string;
-  status: BlockStatus;
-}
-
-export interface ParaBlockProps {
+export interface ParaBlockProps extends BaseBlockProps<ParaBlockData> {
   data: ParaBlockData;
-  blockProgress: BlockProgress;
+  status: BlockStatus;
   onContinue: (data: ParaBlockData) => Promise<void>;
 }
 
-export function renderParaBlock(
-  block: Block,
-  blockProgress: BlockProgress,
-  onContinue: (data: ParaBlockData) => Promise<void>,
-) {
+export const renderParaBlock: BlockRenderer<ParaBlockData> = ({ data, status, onContinue }) => {
   return (
     <ParaBlock
-      key={block.id}
-      data={block as ParaBlockData}
-      blockProgress={blockProgress}
+      key={data.id}
+      data={data as ParaBlockData}
+      status={status}
       onContinue={onContinue}
     />
   );
-}
+};
 
-export function ParaBlock({ data, blockProgress, onContinue }: ParaBlockProps) {
+export function ParaBlock({ data, status, onContinue }: ParaBlockProps) {
   return (
     <div className="space-y-4">
+      {data.headline && <BlockHeadline title={data.headline} />}
       <MarkdownContent content={data.content} />
       <BlockProgressControl
-        status={blockProgress.status}
+        status={status}
         onContinue={() => onContinue(data)}
       />
     </div>
