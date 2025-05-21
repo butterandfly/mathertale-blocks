@@ -13,7 +13,7 @@
           "id": "para-welcome",
           "content": "This is the welcome paragraph.",
           "headline": "",
-          "updatedAt": "2025-05-19T08:57:17.120Z",
+          "updatedAt": "2025-05-21T13:12:35.648Z",
           "type": "PARA"
         }
       ]
@@ -25,20 +25,20 @@
           "id": "para-explanation",
           "content": "This explains the concept.",
           "headline": "",
-          "updatedAt": "2025-05-19T08:57:17.120Z",
+          "updatedAt": "2025-05-21T13:12:35.648Z",
           "type": "PARA"
         },
         {
           "id": "para-conclusion",
           "content": "This is the conclusion.",
           "headline": "",
-          "updatedAt": "2025-05-19T08:57:17.120Z",
+          "updatedAt": "2025-05-21T13:12:35.648Z",
           "type": "PARA"
         }
       ]
     }
   ],
-  "updatedAt": "2025-05-19T08:57:17.120Z",
+  "updatedAt": "2025-05-21T13:12:35.648Z",
   "dependentQuests": [],
   "childQuests": []
 }
