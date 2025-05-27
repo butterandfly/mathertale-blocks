@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react';
-import '../lib/global2.css';
-// import '../lib/global.css';
+import '../lib/global.css';
 
 const preview: Preview = {
   tags: ['autodocs'],
