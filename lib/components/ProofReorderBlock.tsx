@@ -4,31 +4,32 @@ import { SubmitControl } from './SubmitControl';
 import { ReorderContent } from './ReorderContent';
 import { MarkdownContent } from './MarkdownContent';
 import { type OrderItem, type ProofReorderBlockData } from '../core/blocks/proof-reorder-block';
-import { ProofEndControl, type ProofTombstone } from './ProofEndControl';
 import { BlockHeadline } from './BlockHeadline';
+import type { BaseQuestionBlockProps } from './components';
+import { BlockProgressControl } from './BlockProgressControl';
 
 const questionMarkContent = 'Drag the items to reorder the proof';
 
-export interface ProofReorderBlockProps {
-  data: ProofReorderBlockData;
-  status: BlockStatus;
-  onSubmit: (data: ProofReorderBlockData, submittedAnswer: string) => Promise<void>;
-  onContinue: (data: ProofReorderBlockData, continueValue: string) => Promise<void>;
+export interface ProofReorderBlockProps extends BaseQuestionBlockProps<ProofReorderBlockData> {
   submittedAnswer?: string;
-  continueValue?: string;
+  readonly?: boolean;
 }
 
 export function ProofReorderBlock({
   data,
+  status,
   onSubmit,
   onContinue,
   submittedAnswer,
-  continueValue,
+  readonly,
 }: ProofReorderBlockProps) {
   const { orderItems, questionOrder } = data.questionData;
 
   let initialItems: OrderItem[] = [];
-  if (submittedAnswer === undefined) {
+  if (readonly) {
+    // In readonly mode, always show items in correct order
+    initialItems = orderItems;
+  } else if (submittedAnswer === undefined) {
     initialItems = reorderItems(orderItems, questionOrder);
   } else {
     initialItems = reorderItems(orderItems, submittedAnswer as string);
@@ -57,10 +58,6 @@ export function ProofReorderBlock({
     await onSubmit(data, submittedAnswer);
   };
 
-  const handleTombstoneSelect = async (tombstone: ProofTombstone) => {
-    await onContinue(data, tombstone);
-  };
-
   return (
     <div className="space-y-6">
       <BlockHeadline
@@ -72,31 +69,33 @@ export function ProofReorderBlock({
 
       <ReorderContent
         items={currentItems}
-        disabled={submittedAnswer !== undefined}
+        disabled={submittedAnswer !== undefined || readonly === true}
         highlight={highlight}
         onOrderChange={(newItems) => {
           setCurrentItems(newItems);
         }}
       />
 
-      <SubmitControl
-        isSubmitted={submittedAnswer !== undefined}
-        isCorrect={isCorrect}
-        isSubmitEnabled={true}
-        onSubmit={handleSubmit}
-      />
+      {!readonly && (
+        <SubmitControl
+          isSubmitted={submittedAnswer !== undefined}
+          isCorrect={isCorrect}
+          isSubmitEnabled={true}
+          onSubmit={handleSubmit}
+        />
+      )}
 
-      {submittedAnswer !== undefined && explanation && (
+      {(readonly || submittedAnswer !== undefined) && explanation && (
         <div className="bg-blue-50 p-4 rounded-lg space-y-2">
           <h3 className="font-medium text-blue-900">The Complete Proof</h3>
           <MarkdownContent content={explanation} />
         </div>
       )}
 
-      {submittedAnswer !== undefined && (
-        <ProofEndControl
-          continueValue={continueValue}
-          onSelect={handleTombstoneSelect}
+      {!readonly && submittedAnswer !== undefined && (
+        <BlockProgressControl
+          status={status}
+          onContinue={() => onContinue(data)}
         />
       )}
     </div>
@@ -109,7 +108,7 @@ export function renderProofReorderBlock(
   onContinue: (data: ProofReorderBlockData, continueValue?: string) => Promise<void>,
   submittedAnswer?: string,
   onSubmit?: (data: ProofReorderBlockData, submittedAnswer: string) => Promise<void>,
-  continueValue?: string,
+  readonly?: boolean,
 ) {
   return (
     <ProofReorderBlock
@@ -119,7 +118,7 @@ export function renderProofReorderBlock(
       onSubmit={onSubmit!}
       onContinue={onContinue}
       submittedAnswer={submittedAnswer}
-      continueValue={continueValue}
+      readonly={readonly}
     />
   );
 }

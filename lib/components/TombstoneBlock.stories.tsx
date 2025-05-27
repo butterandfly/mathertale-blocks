@@ -49,3 +49,13 @@ export const Interactive: Story = {
     );
   },
 };
+
+export const Readonly: Story = {
+  args: {
+    data: sampleData,
+    status: BlockStatus.IN_PROGRESS,
+    onSubmit: async () => {},
+    onContinue: async () => {},
+    readonly: true,
+  },
+};

@@ -159,3 +159,36 @@ export const ChoiceSelected: Story = {
     await expect(submitButton).toBeEnabled();
   },
 };
+
+// 只读模式用例
+export const ReadOnly: Story = {
+  args: {
+    ...Default.args,
+    readonly: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // 验证正确答案被高亮显示
+    const correctOption = canvas.getByText('Multiplication is commutative').closest('label');
+    await expect(correctOption).toHaveClass('bg-green-50', 'border-green-500');
+
+    // 验证所有选项禁用
+    const radios = canvas.getAllByRole('radio');
+    await Promise.all(
+      radios.map(async (radio) => {
+        await expect(radio).toBeDisabled();
+      }),
+    );
+
+    // 验证解释显示
+    await expect(canvas.getByText('Explanation')).toBeInTheDocument();
+    await expect(canvas.getByText('Scalar multiplication', { exact: false })).toBeInTheDocument();
+
+    // 验证没有提交按钮
+    await expect(canvas.queryByRole('button', { name: /submit/i })).not.toBeInTheDocument();
+
+    // 验证没有继续按钮
+    await expect(canvas.queryByRole('button', { name: /continue/i })).not.toBeInTheDocument();
+  },
+};

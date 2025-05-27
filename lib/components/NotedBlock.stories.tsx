@@ -61,20 +61,58 @@ export const Completed: Story = {
 
 // Story that tests renderDefinitionBlock.
 export const Definition: StoryObj = {
-  render: () => renderDefinitionBlock(blockData, BlockStatus.IN_PROGRESS, onContinue),
+  render: () =>
+    renderDefinitionBlock({
+      data: blockData,
+      status: BlockStatus.IN_PROGRESS,
+      onContinue: onContinue,
+    }),
 };
 
 // Story that tests renderTheoremBlock.
 export const Theorem: StoryObj = {
-  render: () => renderTheoremBlock(blockData, BlockStatus.IN_PROGRESS, onContinue),
+  render: () =>
+    renderTheoremBlock({
+      data: blockData,
+      status: BlockStatus.IN_PROGRESS,
+      onContinue: onContinue,
+    }),
 };
 
 // Story that tests renderPropositionBlock.
 export const Proposition: StoryObj = {
-  render: () => renderPropositionBlock(blockData, BlockStatus.IN_PROGRESS, onContinue),
+  render: () =>
+    renderPropositionBlock({
+      data: blockData,
+      status: BlockStatus.IN_PROGRESS,
+      onContinue: onContinue,
+    }),
 };
 
 // Story that tests renderRemarkBlock.
 export const Remark: StoryObj = {
-  render: () => renderRemarkBlock(blockData, BlockStatus.IN_PROGRESS, onContinue),
+  render: () =>
+    renderRemarkBlock({
+      data: blockData,
+      status: BlockStatus.IN_PROGRESS,
+      onContinue: onContinue,
+    }),
+};
+
+export const ReadOnly: Story = {
+  args: {
+    ...defaultArgs,
+    readonly: true,
+  },
+};
+
+// Story that tests renderDefinitionBlock in readonly mode.
+export const DefinitionReadOnly: StoryObj = {
+  render: () =>
+    renderDefinitionBlock({
+      data: blockData,
+      status: BlockStatus.IN_PROGRESS,
+      onContinue: onContinue,
+      readonly: true,
+    }),
 };

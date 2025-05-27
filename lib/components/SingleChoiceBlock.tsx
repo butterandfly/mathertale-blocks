@@ -21,13 +21,18 @@ export function SingleChoiceBlock({
   status,
   onSubmit,
   onContinue,
+  readonly,
 }: SingleChoiceBlockProps) {
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
 
   const { answer, explanation } = useMemo(() => {
+    if (readonly) {
+      // In readonly mode, always show the correct answer and explanation
+      return { answer: data.questionData.answer, explanation: data.questionData.explanation };
+    }
     if (submittedAnswer === undefined) return { answer: null, explanation: null };
     return { answer: data.questionData.answer, explanation: data.questionData.explanation };
-  }, [submittedAnswer, data.questionData]);
+  }, [readonly, submittedAnswer, data.questionData]);
 
   const handleSubmit = async () => {
     if (selectedChoice === null) {
@@ -54,7 +59,7 @@ export function SingleChoiceBlock({
           value={selectedChoice || ''}
           onValueChange={handleChoiceChange}
           className="space-y-2"
-          disabled={submittedAnswer !== undefined}
+          disabled={submittedAnswer !== undefined || readonly}
         >
           {data.questionData.choices.map((choice) => (
             <Label
@@ -63,19 +68,28 @@ export function SingleChoiceBlock({
               className={cn(
                 'block relative p-3 rounded-lg transition-all',
                 'bg-gray-50 border-2 border-transparent',
-                answer === null &&
+                readonly && [
+                  // In readonly mode, highlight the correct answer
+                  answer === choice.key && 'bg-green-50 border-green-500',
+                  'cursor-default',
+                ],
+                !readonly &&
+                  answer === null &&
                   status !== BlockStatus.COMPLETED && [
                     'cursor-pointer',
                     selectedChoice !== choice.key && 'hover:border-gray-200',
                     selectedChoice === choice.key && 'border-gray-900',
                   ],
-                answer !== null && [
-                  answer === choice.key && 'bg-green-50 border-green-500',
-                  submittedAnswer === choice.key &&
-                    answer !== choice.key &&
-                    'bg-red-50 border-red-500',
-                ],
-                (answer !== null || status === BlockStatus.COMPLETED) && 'cursor-default',
+                !readonly &&
+                  answer !== null && [
+                    answer === choice.key && 'bg-green-50 border-green-500',
+                    submittedAnswer === choice.key &&
+                      answer !== choice.key &&
+                      'bg-red-50 border-red-500',
+                  ],
+                !readonly &&
+                  (answer !== null || status === BlockStatus.COMPLETED) &&
+                  'cursor-default',
               )}
             >
               <RadioGroupItem
@@ -91,16 +105,25 @@ export function SingleChoiceBlock({
           ))}
         </RadioGroup>
 
-        <SubmitControl
-          isSubmitted={submittedAnswer !== undefined}
-          isCorrect={submittedAnswer === data.questionData.answer}
-          explanation={explanation ?? undefined}
-          isSubmitEnabled={selectedChoice !== null}
-          onSubmit={handleSubmit}
-        />
+        {!readonly && (
+          <SubmitControl
+            isSubmitted={submittedAnswer !== undefined}
+            isCorrect={submittedAnswer === data.questionData.answer}
+            explanation={explanation ?? undefined}
+            isSubmitEnabled={selectedChoice !== null}
+            onSubmit={handleSubmit}
+          />
+        )}
+
+        {readonly && explanation && (
+          <div className="bg-blue-50 p-4 rounded-lg space-y-2">
+            <h3 className="font-medium text-blue-900">Explanation</h3>
+            <MarkdownContent content={explanation} />
+          </div>
+        )}
       </HighlightBox>
 
-      {submittedAnswer !== undefined && (
+      {!readonly && submittedAnswer !== undefined && (
         <BlockProgressControl
           status={status}
           onContinue={() => onContinue(data)}
@@ -116,6 +139,7 @@ export function renderSingleChoiceBlock({
   onContinue,
   submittedAnswer,
   onSubmit,
+  readonly,
 }: SingleChoiceBlockProps) {
   return (
     <SingleChoiceBlock
@@ -125,6 +149,7 @@ export function renderSingleChoiceBlock({
       submittedAnswer={submittedAnswer}
       onSubmit={onSubmit!}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }

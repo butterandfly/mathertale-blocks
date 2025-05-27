@@ -122,4 +122,109 @@ describe('SingleChoiceBlock', () => {
     const correctAnswerAfterRerender = screen.getByText('4').closest('label');
     expect(correctAnswerAfterRerender).toHaveClass('bg-green-50');
   });
+
+  describe('readonly mode', () => {
+    it('should highlight correct answer and show explanation in readonly mode', () => {
+      render(
+        <SingleChoiceBlock
+          {...mockProps}
+          readonly={true}
+        />,
+      );
+
+      // Check that the content is rendered
+      expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
+
+      // Check that all options are rendered
+      expect(screen.getByText('3')).toBeInTheDocument();
+      expect(screen.getByText('4')).toBeInTheDocument();
+      expect(screen.getByText('5')).toBeInTheDocument();
+
+      // Check that correct answer is highlighted
+      const correctAnswer = screen.getByText('4').closest('label');
+      expect(correctAnswer).toHaveClass('bg-green-50', 'border-green-500');
+
+      // Check that incorrect answers are not highlighted
+      const wrongAnswer1 = screen.getByText('3').closest('label');
+      const wrongAnswer2 = screen.getByText('5').closest('label');
+      expect(wrongAnswer1).not.toHaveClass('bg-green-50', 'border-green-500');
+      expect(wrongAnswer2).not.toHaveClass('bg-green-50', 'border-green-500');
+
+      // Check that explanation is shown
+      expect(screen.getByText('Explanation')).toBeInTheDocument();
+      expect(screen.getByText('Basic arithmetic: 2+2=4')).toBeInTheDocument();
+    });
+
+    it('should disable all radio buttons in readonly mode', () => {
+      render(
+        <SingleChoiceBlock
+          {...mockProps}
+          readonly={true}
+        />,
+      );
+
+      // Check that all radio buttons are disabled
+      const radioButtons = screen.getAllByRole('radio');
+      radioButtons.forEach((radio) => {
+        expect(radio).toBeDisabled();
+      });
+    });
+
+    it('should not show submit button in readonly mode', () => {
+      render(
+        <SingleChoiceBlock
+          {...mockProps}
+          readonly={true}
+        />,
+      );
+
+      // Check that submit button is not present
+      expect(screen.queryByRole('button', { name: /submit/i })).not.toBeInTheDocument();
+    });
+
+    it('should not show continue button in readonly mode', () => {
+      render(
+        <SingleChoiceBlock
+          {...mockProps}
+          readonly={true}
+        />,
+      );
+
+      // Check that continue button is not present
+      expect(screen.queryByRole('button', { name: /continue/i })).not.toBeInTheDocument();
+    });
+
+    it('should not allow interaction in readonly mode', () => {
+      render(
+        <SingleChoiceBlock
+          {...mockProps}
+          readonly={true}
+        />,
+      );
+
+      // Try to click on an option
+      const option = screen.getByText('3');
+      fireEvent.click(option);
+
+      // Verify onSubmit was not called
+      expect(mockProps.onSubmit).not.toHaveBeenCalled();
+
+      // Verify onContinue was not called
+      expect(mockProps.onContinue).not.toHaveBeenCalled();
+    });
+
+    it('should show explanation even when no submittedAnswer is provided in readonly mode', () => {
+      render(
+        <SingleChoiceBlock
+          {...mockProps}
+          readonly={true}
+          submittedAnswer={undefined}
+        />,
+      );
+
+      // Check that explanation is still shown in readonly mode
+      expect(screen.getByText('Explanation')).toBeInTheDocument();
+      expect(screen.getByText('Basic arithmetic: 2+2=4')).toBeInTheDocument();
+    });
+  });
 });

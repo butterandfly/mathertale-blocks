@@ -240,3 +240,28 @@ export const TwoContradictionBlocks: Story = {
     });
   },
 };
+
+// 只读模式用例
+export const ReadOnly: Story = {
+  args: {
+    ...Default.args,
+    readonly: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // 检查正确答案是否在绿色盒子中
+    await expect(canvas.getByText('Fact 1')).toBeInTheDocument();
+    await expect(canvas.getByText('Fact 2')).toBeInTheDocument();
+
+    // 检查解释是否显示
+    await expect(canvas.getByText('Explanation')).toBeInTheDocument();
+    await expect(canvas.getByText('The statements', { exact: false })).toBeInTheDocument();
+
+    // 验证没有提交按钮
+    await expect(canvas.queryByRole('button', { name: /submit/i })).not.toBeInTheDocument();
+
+    // 验证没有继续按钮
+    await expect(canvas.queryByRole('button', { name: /continue/i })).not.toBeInTheDocument();
+  },
+};

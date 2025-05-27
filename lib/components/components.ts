@@ -27,6 +27,7 @@ export interface BaseBlockProps<T extends BlockSchema = BlockSchema> {
   data: T;
   status: BlockStatus;
   onContinue: (data: T) => Promise<void>;
+  readonly?: boolean;
 }
 
 export interface BaseQuestionBlockProps<T extends BlockSchema = BlockSchema, A = string>
@@ -42,6 +43,7 @@ export type BlockRenderer<T extends BlockSchema = BlockSchema> = ({
   data,
   status,
   onContinue,
+  readonly,
 }: BaseBlockProps<T>) => React.ReactElement;
 
 export type QuestionBlockRenderer<T extends BlockSchema = BlockSchema> = ({
@@ -50,4 +52,5 @@ export type QuestionBlockRenderer<T extends BlockSchema = BlockSchema> = ({
   onContinue,
   submittedAnswer,
   onSubmit,
+  readonly,
 }: BaseQuestionBlockProps<T>) => React.ReactElement;

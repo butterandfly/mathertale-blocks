@@ -50,8 +50,8 @@ export const Initial: Story = {
     onSubmit: async (data, answer) => {
       console.log('Submitted answer:', answer);
     },
-    onContinue: async (data, continueValue) => {
-      console.log('Continue clicked with value:', continueValue);
+    onContinue: async (data) => {
+      console.log('Continue clicked for:', data.id);
     },
   },
   play: async ({ canvasElement }) => {
@@ -79,8 +79,8 @@ export const CorrectAnswer: Story = {
     },
     submittedAnswer: '1,2,3', // 正确顺序
     onSubmit: async () => {},
-    onContinue: async (data, continueValue) => {
-      console.log('Selected value:', continueValue);
+    onContinue: async (data) => {
+      console.log('Continue clicked for:', data.id);
     },
   },
   play: async ({ canvasElement }) => {
@@ -88,12 +88,6 @@ export const CorrectAnswer: Story = {
 
     // 检查是否显示正确提示
     await expect(canvas.getByText('Correct!')).toBeInTheDocument();
-
-    // 检查是否有emoji按钮
-    await expect(canvas.getByText('🪦')).toBeInTheDocument();
-    await expect(canvas.getByText('❤️')).toBeInTheDocument();
-    await expect(canvas.getByText('🌼')).toBeInTheDocument();
-    await expect(canvas.getByText('□')).toBeInTheDocument();
   },
 };
 
@@ -103,8 +97,8 @@ export const WrongAnswer: Story = {
     data: sampleData,
     submittedAnswer: '2,1,3', // 错误顺序
     onSubmit: async () => {},
-    onContinue: async (data, continueValue) => {
-      console.log('Selected value:', continueValue);
+    onContinue: async (data) => {
+      console.log('Continue clicked for:', data.id);
     },
   },
   play: async ({ canvasElement }) => {
@@ -112,12 +106,6 @@ export const WrongAnswer: Story = {
 
     // 检查是否显示错误提示
     await expect(canvas.getByText('Not quite right.')).toBeInTheDocument();
-
-    // 检查是否有emoji按钮
-    await expect(canvas.getByText('🪦')).toBeInTheDocument();
-    await expect(canvas.getByText('❤️')).toBeInTheDocument();
-    await expect(canvas.getByText('🌼')).toBeInTheDocument();
-    await expect(canvas.getByText('□')).toBeInTheDocument();
   },
 };
 
@@ -137,18 +125,48 @@ export const Interactive: Story = {
             console.log('Submitted answer:', answer);
             setSubmittedAnswer(answer);
           }}
-          onContinue={async (data, continueValue) => {
-            console.log('Selected value:', continueValue);
-            setContinueValue(continueValue);
+          onContinue={async (data) => {
+            console.log('Continue clicked for:', data.id);
+            setContinueValue(undefined);
           }}
         />
-
-        {/* {selectedTombstone && (
-          <div className="mt-4 p-4 bg-slate-100 rounded-lg">
-            <p className="text-center">Selected ending: <span className="text-2xl">{selectedTombstone}</span></p>
-          </div>
-        )} */}
       </div>
     );
+  },
+};
+
+// 只读模式用例
+export const ReadOnly: Story = {
+  args: {
+    data: sampleData,
+    status: BlockStatus.IN_PROGRESS,
+    readonly: true,
+    onSubmit: async () => {},
+    onContinue: async (data) => {
+      console.log('Continue clicked for:', data.id);
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // 检查标题是否存在
+    await expect(canvas.getByText('Proof')).toBeInTheDocument();
+
+    // 检查内容是否存在
+    await expect(canvas.getByText('请将以下证明步骤排序：')).toBeInTheDocument();
+
+    // 检查所有证明步骤是否按正确顺序显示（应该是原始顺序，不是打乱的顺序）
+    // await expect(canvas.getByText('1. 假设 x > 0')).toBeInTheDocument();
+    // await expect(canvas.getByText('2. 令 y = x + 1')).toBeInTheDocument();
+    // await expect(canvas.getByText('3. 因此 y > 1')).toBeInTheDocument();
+
+    // 检查解释是否显示
+    await expect(canvas.getByText('The Complete Proof')).toBeInTheDocument();
+
+    // 验证没有提交按钮
+    await expect(canvas.queryByRole('button', { name: /submit/i })).not.toBeInTheDocument();
+
+    // 验证没有继续按钮
+    await expect(canvas.queryByRole('button', { name: /continue/i })).not.toBeInTheDocument();
   },
 };

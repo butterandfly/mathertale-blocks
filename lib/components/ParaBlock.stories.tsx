@@ -82,3 +82,19 @@ export const SVGContent: Story = {
     onContinue: () => Promise.resolve(),
   },
 };
+
+export const ReadOnly: Story = {
+  args: {
+    data: {
+      ...defaultData,
+      id: '5',
+      headline: 'Read-Only Block',
+      content:
+        '这是一个只读模式的段落块。注意没有继续按钮。\n\n包含**加粗**和*斜体*等 Markdown 格式。',
+      getText: () => '这是一个只读模式的段落块。',
+    },
+    status: BlockStatus.IN_PROGRESS,
+    onContinue: () => Promise.resolve(),
+    readonly: true,
+  },
+};

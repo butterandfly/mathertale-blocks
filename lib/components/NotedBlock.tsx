@@ -1,7 +1,4 @@
-'use client';
-
 import { MarkdownContent } from './MarkdownContent';
-import { BlockStatus, type BlockSchema } from '../core/schemas';
 import { HighlightBox } from './HighlightBox';
 import { BlockProgressControl } from './BlockProgressControl';
 import {
@@ -12,17 +9,14 @@ import {
   LemmaType,
   type NotedBlockData,
 } from '../core/blocks/noted-block';
+import { type BaseBlockProps } from './components';
 
-export interface NotedBlockProps {
-  data: NotedBlockData;
-  status: BlockStatus;
+export interface NotedBlockProps extends BaseBlockProps<NotedBlockData> {
   tag: string;
   theme: 'blue' | 'green' | 'amber' | 'purple' | 'gray';
-  onContinue: (data: NotedBlockData) => Promise<void>;
 }
 
-export function NotedBlock({ data, status, tag, theme, onContinue }: NotedBlockProps) {
-  // const [showSaved, setShowSaved] = useState(false);
+export function NotedBlock({ data, status, tag, theme, onContinue, readonly }: NotedBlockProps) {
   const fullContent = `### ${data.name}\n\n${data.content}`;
 
   const handleContinue = async () => {
@@ -38,27 +32,14 @@ export function NotedBlock({ data, status, tag, theme, onContinue }: NotedBlockP
         >
           <MarkdownContent content={fullContent} />
         </HighlightBox>
-
-        {/* Bottom-right saved notification */}
-        {/* <div
-          className={cn(
-            "absolute bottom-4 right-4 transition-all duration-300",
-            "flex items-center gap-2 px-3 py-2",
-            "bg-green-500 text-white rounded-md shadow-lg",
-            showSaved
-              ? "translate-y-0 opacity-100"
-              : "translate-y-12 opacity-0 pointer-events-none"
-          )}
-        >
-          <Check className="w-4 h-4" />
-          <span className="text-sm font-medium">Saved</span>
-        </div> */}
       </div>
 
-      <BlockProgressControl
-        status={status}
-        onContinue={() => handleContinue()}
-      />
+      {!readonly && (
+        <BlockProgressControl
+          status={status}
+          onContinue={() => handleContinue()}
+        />
+      )}
     </div>
   );
 }
@@ -68,87 +49,97 @@ export function NotedBlock({ data, status, tag, theme, onContinue }: NotedBlockP
  * Adjust property names and theme colors according to your needs.
  */
 
-export function renderDefinitionBlock(
-  block: BlockSchema,
-  status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>,
-) {
+export function renderDefinitionBlock({
+  data,
+  status,
+  onContinue,
+  readonly,
+}: BaseBlockProps<NotedBlockData>) {
   return (
     <NotedBlock
-      key={block.id}
-      data={block as NotedBlockData}
+      key={data.id}
+      data={data}
       status={status}
       tag={DefinitionType}
       theme="blue"
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }
 
-export function renderTheoremBlock(
-  block: BlockSchema,
-  status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>,
-) {
+export function renderTheoremBlock({
+  data,
+  status,
+  onContinue,
+  readonly,
+}: BaseBlockProps<NotedBlockData>) {
   return (
     <NotedBlock
-      key={block.id}
-      data={block as NotedBlockData}
+      key={data.id}
+      data={data}
       tag={TheoremType}
       theme="green"
       status={status}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }
 
-export function renderPropositionBlock(
-  block: BlockSchema,
-  status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>,
-) {
+export function renderPropositionBlock({
+  data,
+  status,
+  onContinue,
+  readonly,
+}: BaseBlockProps<NotedBlockData>) {
   return (
     <NotedBlock
-      key={block.id}
-      data={block as NotedBlockData}
+      key={data.id}
+      data={data}
       tag={PropositionType}
       theme="green"
       status={status}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }
 
-export function renderLemmaBlock(
-  block: BlockSchema,
-  status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>,
-) {
+export function renderLemmaBlock({
+  data,
+  status,
+  onContinue,
+  readonly,
+}: BaseBlockProps<NotedBlockData>) {
   return (
     <NotedBlock
-      key={block.id}
-      data={block as NotedBlockData}
+      key={data.id}
+      data={data}
       tag={LemmaType}
       theme="green"
       status={status}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }
 
-export function renderRemarkBlock(
-  block: BlockSchema,
-  status: BlockStatus,
-  onContinue: (data: NotedBlockData) => Promise<void>,
-) {
+export function renderRemarkBlock({
+  data,
+  status,
+  onContinue,
+  readonly,
+}: BaseBlockProps<NotedBlockData>) {
   return (
     <NotedBlock
-      key={block.id}
-      data={block as NotedBlockData}
+      key={data.id}
+      data={data}
       tag={RemarkType}
       theme="amber"
       status={status}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }

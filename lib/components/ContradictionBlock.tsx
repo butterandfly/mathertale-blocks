@@ -36,6 +36,7 @@ export interface ContradictionBlockProps {
   // submittedAnswer example: "a,b"
   onSubmit: (data: ContradictionBlockData, submittedAnswer: string) => Promise<void>;
   onContinue: (data: ContradictionBlockData) => Promise<void>;
+  readonly?: boolean;
 }
 
 // Enhanced ContradictionChoice with currentDropBoxId
@@ -49,6 +50,7 @@ export function ContradictionBlock({
   submittedAnswer,
   onSubmit,
   onContinue,
+  readonly,
 }: ContradictionBlockProps) {
   // 将 choices 转换为 EnhancedContradictionChoice 数组
   const initialItems = useMemo(() => {
@@ -56,6 +58,21 @@ export function ContradictionBlock({
       ...choice,
       currentDropBoxId: undefined,
     }));
+
+    // 在只读模式下，显示正确答案
+    if (readonly) {
+      const correctAnswer = data.questionData.answer;
+      const [box1Key, box2Key] = correctAnswer;
+
+      return items.map((item) => {
+        if (item.key === box1Key) {
+          return { ...item, currentDropBoxId: 'box-1' };
+        } else if (item.key === box2Key) {
+          return { ...item, currentDropBoxId: 'box-2' };
+        }
+        return item;
+      });
+    }
 
     // 如果已经有提交的答案，将对应的选项放入对应的盒子
     if (submittedAnswer) {
@@ -72,13 +89,21 @@ export function ContradictionBlock({
     }
 
     return items;
-  }, [data.questionData.choices, submittedAnswer]);
+  }, [data.questionData.choices, submittedAnswer, readonly, data.questionData.answer]);
 
   const [items, setItems] = useState<EnhancedContradictionChoice[]>(initialItems);
   const [error, setError] = useState<string | null>(null);
 
   // 从 blockProgress 中获取答案和解释
   const { explanation, isCorrect } = useMemo(() => {
+    // 在只读模式下，总是显示解释并标记为正确
+    if (readonly) {
+      return {
+        explanation: data.questionData.explanation,
+        isCorrect: true,
+      };
+    }
+
     if (!submittedAnswer) {
       return { explanation: null, isCorrect: false };
     }
@@ -93,10 +118,18 @@ export function ContradictionBlock({
       explanation: data.questionData.explanation,
       isCorrect: isEqual,
     };
-  }, [submittedAnswer, data.questionData]);
+  }, [submittedAnswer, data.questionData, readonly]);
 
   // 设置两个 DropBox，一个黄色一个紫色
   const dropBoxes = useMemo(() => {
+    // 在只读模式下，总是显示绿色（正确答案）
+    if (readonly) {
+      return [
+        { id: 'box-1', color: 'green' as DropBoxColor },
+        { id: 'box-2', color: 'green' as DropBoxColor },
+      ];
+    }
+
     // 如果已提交答案，根据正确与否设置颜色
     if (submittedAnswer !== undefined) {
       const boxColor = isCorrect ? 'green' : 'red';
@@ -110,7 +143,7 @@ export function ContradictionBlock({
       { id: 'box-1', color: 'yellow' as DropBoxColor },
       { id: 'box-2', color: 'purple' as DropBoxColor },
     ];
-  }, [submittedAnswer, isCorrect]);
+  }, [submittedAnswer, isCorrect, readonly]);
 
   // 配置传感器
   const sensors = useSensors(
@@ -132,8 +165,8 @@ export function ContradictionBlock({
 
   // 处理拖拽结束事件
   const handleDragEnd = (event: DragEndEvent) => {
-    // 如果已经提交，不允许拖拽
-    if (submittedAnswer !== undefined) {
+    // 如果已经提交或在只读模式下，不允许拖拽
+    if (submittedAnswer !== undefined || readonly) {
       return;
     }
 
@@ -269,7 +302,7 @@ export function ContradictionBlock({
                 <div className="w-full h-full">
                   <DropBox
                     {...dropBoxes[0]}
-                    disabled={isSubmitted}
+                    disabled={isSubmitted || readonly}
                     className="h-full"
                   >
                     {items.find((item) => item.currentDropBoxId === dropBoxes[0].id) && (
@@ -278,7 +311,7 @@ export function ContradictionBlock({
                         content={
                           items.find((item) => item.currentDropBoxId === dropBoxes[0].id)!.content
                         }
-                        disabled={isSubmitted}
+                        disabled={isSubmitted || readonly}
                       />
                     )}
                   </DropBox>
@@ -298,7 +331,7 @@ export function ContradictionBlock({
                 <div className="w-full h-full">
                   <DropBox
                     {...dropBoxes[1]}
-                    disabled={isSubmitted}
+                    disabled={isSubmitted || readonly}
                     className="h-full"
                   >
                     {items.find((item) => item.currentDropBoxId === dropBoxes[1].id) && (
@@ -307,7 +340,7 @@ export function ContradictionBlock({
                         content={
                           items.find((item) => item.currentDropBoxId === dropBoxes[1].id)!.content
                         }
-                        disabled={isSubmitted}
+                        disabled={isSubmitted || readonly}
                       />
                     )}
                   </DropBox>
@@ -322,7 +355,7 @@ export function ContradictionBlock({
                   key={item.key}
                   id={item.key}
                   content={item.content}
-                  disabled={isSubmitted}
+                  disabled={isSubmitted || readonly}
                 />
               ))}
             </div>
@@ -331,19 +364,29 @@ export function ContradictionBlock({
             {error && !isSubmitted && <div className="text-red-500 text-sm mt-2">{error}</div>}
 
             {/* 提交控制 */}
-            <SubmitControl
-              isSubmitted={isSubmitted}
-              isCorrect={isCorrect}
-              explanation={explanation ?? undefined}
-              isSubmitEnabled={canSubmit && !isSubmitted}
-              onSubmit={handleSubmit}
-            />
+            {!readonly && (
+              <SubmitControl
+                isSubmitted={isSubmitted}
+                isCorrect={isCorrect}
+                explanation={explanation ?? undefined}
+                isSubmitEnabled={canSubmit && !isSubmitted}
+                onSubmit={handleSubmit}
+              />
+            )}
+
+            {/* 只读模式下的解释 */}
+            {readonly && explanation && (
+              <div className="bg-blue-50 p-4 rounded-lg space-y-2">
+                <h3 className="font-medium text-blue-900">Explanation</h3>
+                <MarkdownContent content={explanation} />
+              </div>
+            )}
           </div>
         </DndContext>
       </HighlightBox>
 
       {/* 进度控制 */}
-      {isSubmitted && (
+      {!readonly && isSubmitted && (
         <BlockProgressControl
           status={status}
           onContinue={() => onContinue(data)}
@@ -359,6 +402,7 @@ export function renderContradictionBlock(
   onContinue: (data: ContradictionBlockData) => Promise<void>,
   onSubmit?: (data: ContradictionBlockData, submittedAnswer: string) => Promise<void>,
   submittedAnswer?: string,
+  readonly?: boolean,
 ) {
   return (
     <ContradictionBlock
@@ -368,6 +412,7 @@ export function renderContradictionBlock(
       submittedAnswer={submittedAnswer}
       onSubmit={onSubmit!}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
 }

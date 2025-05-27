@@ -11,6 +11,7 @@ export function TombstoneBlock({
   submittedAnswer,
   onSubmit,
   onContinue,
+  readonly,
 }: TombstoneBlockProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +34,10 @@ export function TombstoneBlock({
 
   if (submittedAnswer !== undefined) {
     return <div className="text-2xl text-right">{Tombstone[submittedAnswer]}</div>;
+  }
+
+  if (readonly) {
+    return <div className="text-2xl text-right">{Tombstone.stone}</div>;
   }
 
   return (
