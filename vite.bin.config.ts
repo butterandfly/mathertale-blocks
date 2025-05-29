@@ -44,9 +44,12 @@ export default defineConfig({
     alias: {
       // Ensure that internal imports resolve correctly
       '../lib/core/core': resolve(__dirname, 'lib/core/core.ts'),
-      '../lib/core/convert-quest-markdown': resolve(__dirname, 'lib/core/convert-quest-markdown.ts'),
+      '../lib/core/convert-quest-markdown': resolve(
+        __dirname,
+        'lib/core/convert-quest-markdown.ts',
+      ),
       '../lib/core/extract-content': resolve(__dirname, 'lib/core/extract-content.ts'),
       '../lib/core/schemas': resolve(__dirname, 'lib/core/schemas.ts'),
     },
   },
-}); 
+});

@@ -1,11 +1,11 @@
 # mathertale-blocks
 
-Mathertale schemas and blocks. 
-
+Mathertale schemas and blocks.
 
 ## CLI Usage
 
 ### Build Database
+
 Recursively finds all journey and quest files and builds the database:
 
 ```bash
@@ -15,7 +15,6 @@ mathertale-build db ./ --output ./data
 ```
 
 **Warning**: You should not run this command in the root directory of your Mathertale project.
-
 
 ## Important Schemas
 
@@ -29,6 +28,7 @@ More information can be found in [src/schemas.ts](./src/schemas.ts).
 ## Adding a New Block Type
 
 First you need to create the block file in blocks, which should offer:
+
 - The block type string;
 - The block data interface;
 - The convert function.
@@ -39,12 +39,14 @@ Then add the convert function to `tagBlockMap` in "extract-content.ts". Also you
 
 ```markdown
 # Quest: Quest Name
+
 id: test-id
 desc: This is a test quest.
 
 ## Section: Introduction
 
 ### para: Welcome
+
 id: para-welcome
 
 This is the welcome paragraph.
@@ -52,11 +54,13 @@ This is the welcome paragraph.
 ## Section: Main Content
 
 ### Para: Explanation
+
 id: para-explanation
 
 This explains the concept.
 
 ### PARA: Conclusion
+
 id: para-conclusion
 
 This is the conclusion.
