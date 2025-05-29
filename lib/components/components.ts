@@ -46,11 +46,11 @@ export type BlockRenderer<T extends BlockSchema = BlockSchema> = ({
   readonly,
 }: BaseBlockProps<T>) => React.ReactElement;
 
-export type QuestionBlockRenderer<T extends BlockSchema = BlockSchema> = ({
+export type QuestionBlockRenderer<T extends BlockSchema = BlockSchema, A = string> = ({
   data,
   status,
   onContinue,
   submittedAnswer,
   onSubmit,
   readonly,
-}: BaseQuestionBlockProps<T>) => React.ReactElement;
+}: BaseQuestionBlockProps<T, A>) => React.ReactElement;

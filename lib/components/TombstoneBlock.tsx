@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { type TombstoneBlockData, Tombstone } from '../core/blocks/tombstone-block';
-import { type BaseQuestionBlockProps } from './components';
+import { type BaseQuestionBlockProps, type QuestionBlockRenderer } from './components';
 
-export interface TombstoneBlockProps extends BaseQuestionBlockProps<TombstoneBlockData> {
-  submittedAnswer?: Tombstone;
-}
+export type TombstoneBlockProps = BaseQuestionBlockProps<TombstoneBlockData, Tombstone>;
 
 export function TombstoneBlock({
   data,
@@ -22,7 +20,7 @@ export function TombstoneBlock({
 
     try {
       // First submit the answer
-      await onSubmit(data, tombstone);
+      await onSubmit(data, tombstone as Tombstone);
       // Then continue to the next block
       await onContinue(data);
     } catch (err) {
@@ -60,13 +58,14 @@ export function TombstoneBlock({
   );
 }
 
-export function renderTombstoneBlock({
+export const renderTombstoneBlock: QuestionBlockRenderer<TombstoneBlockData, Tombstone> = ({
   data,
   status,
   onContinue,
   submittedAnswer,
   onSubmit,
-}: TombstoneBlockProps) {
+  readonly,
+}: TombstoneBlockProps) => {
   return (
     <TombstoneBlock
       key={data.id}
@@ -75,6 +74,7 @@ export function renderTombstoneBlock({
       submittedAnswer={submittedAnswer}
       onSubmit={onSubmit}
       onContinue={onContinue}
+      readonly={readonly}
     />
   );
-}
+};

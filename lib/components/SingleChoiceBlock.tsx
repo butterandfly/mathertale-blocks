@@ -8,7 +8,7 @@ import { BlockProgressControl } from './BlockProgressControl';
 import { cn } from './ui/utils';
 import { SubmitControl } from './SubmitControl';
 import { type SingleChoiceBlockData } from '../core/blocks/single-choice-block';
-import { type BaseQuestionBlockProps } from './components';
+import { type BaseQuestionBlockProps, type QuestionBlockRenderer } from './components';
 
 export interface SingleChoiceBlockProps extends BaseQuestionBlockProps<SingleChoiceBlockData> {
   submittedAnswer?: string;
@@ -133,14 +133,14 @@ export function SingleChoiceBlock({
   );
 }
 
-export function renderSingleChoiceBlock({
+export const renderSingleChoiceBlock: QuestionBlockRenderer<SingleChoiceBlockData> = ({
   data,
   status,
   onContinue,
   submittedAnswer,
   onSubmit,
   readonly,
-}: SingleChoiceBlockProps) {
+}) => {
   return (
     <SingleChoiceBlock
       key={data.id}
@@ -152,4 +152,4 @@ export function renderSingleChoiceBlock({
       readonly={readonly}
     />
   );
-}
+};

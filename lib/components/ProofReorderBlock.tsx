@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
-import { type BlockSchema as Block, type BlockStatus } from '../core/schemas';
 import { SubmitControl } from './SubmitControl';
 import { ReorderContent } from './ReorderContent';
 import { MarkdownContent } from './MarkdownContent';
 import { type OrderItem, type ProofReorderBlockData } from '../core/blocks/proof-reorder-block';
 import { BlockHeadline } from './BlockHeadline';
-import type { BaseQuestionBlockProps } from './components';
+import type { BaseQuestionBlockProps, QuestionBlockRenderer } from './components';
 import { BlockProgressControl } from './BlockProgressControl';
 
 const questionMarkContent = 'Drag the items to reorder the proof';
@@ -102,18 +101,18 @@ export function ProofReorderBlock({
   );
 }
 
-export function renderProofReorderBlock(
-  block: Block,
-  status: BlockStatus,
-  onContinue: (data: ProofReorderBlockData, continueValue?: string) => Promise<void>,
-  submittedAnswer?: string,
-  onSubmit?: (data: ProofReorderBlockData, submittedAnswer: string) => Promise<void>,
-  readonly?: boolean,
-) {
+export const renderProofReorderBlock: QuestionBlockRenderer<ProofReorderBlockData> = ({
+  data,
+  status,
+  onContinue,
+  submittedAnswer,
+  onSubmit,
+  readonly,
+}: ProofReorderBlockProps) => {
   return (
     <ProofReorderBlock
-      key={block.id}
-      data={block as ProofReorderBlockData}
+      key={data.id}
+      data={data}
       status={status}
       onSubmit={onSubmit!}
       onContinue={onContinue}
@@ -121,7 +120,7 @@ export function renderProofReorderBlock(
       readonly={readonly}
     />
   );
-}
+};
 
 /**
  * 根据 order 重新排序 items

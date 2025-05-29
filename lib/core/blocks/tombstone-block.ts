@@ -10,6 +10,8 @@ export const Tombstone = {
 
 export type Tombstone = keyof typeof Tombstone;
 
+export const TombstoneType = 'TOMBSTONE';
+
 export class TombstoneBlockData implements BlockSchema {
   readonly type = 'TOMBSTONE';
   constructor(

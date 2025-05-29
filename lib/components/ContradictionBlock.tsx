@@ -16,7 +16,7 @@ import { DraggableMarkdownItem } from './DraggableMarkdownItem';
 import { DropBox, type DropBoxColor } from './DropBox';
 import { HighlightBox } from './HighlightBox';
 import { MarkdownContent } from './MarkdownContent';
-import { type BlockSchema as Block, type BlockStatus } from '../core/schemas';
+import { type BlockStatus } from '../core/schemas';
 import { BlockProgressControl } from './BlockProgressControl';
 import { SubmitControl } from './SubmitControl';
 import { Swords } from 'lucide-react';
@@ -24,6 +24,7 @@ import {
   type ContradictionChoice,
   type ContradictionBlockData,
 } from '../core/blocks/contradiction-block';
+import type { QuestionBlockRenderer } from './components';
 
 const questionMarkContent = `Drag the contradiction facts into the boxes. Selected facts should be:
 - true, based on the assumption;
@@ -396,18 +397,18 @@ export function ContradictionBlock({
   );
 }
 
-export function renderContradictionBlock(
-  block: Block,
-  status: BlockStatus,
-  onContinue: (data: ContradictionBlockData) => Promise<void>,
-  onSubmit?: (data: ContradictionBlockData, submittedAnswer: string) => Promise<void>,
-  submittedAnswer?: string,
-  readonly?: boolean,
-) {
+export const renderContradictionBlock: QuestionBlockRenderer<ContradictionBlockData> = ({
+  data,
+  status,
+  onContinue,
+  submittedAnswer,
+  onSubmit,
+  readonly,
+}: ContradictionBlockProps) => {
   return (
     <ContradictionBlock
-      key={block.id}
-      data={block as ContradictionBlockData}
+      key={data.id}
+      data={data}
       status={status}
       submittedAnswer={submittedAnswer}
       onSubmit={onSubmit!}
@@ -415,7 +416,7 @@ export function renderContradictionBlock(
       readonly={readonly}
     />
   );
-}
+};
 
 function haveSameElements<T>(array1: T[], array2: T[]): boolean {
   if (array1.length !== array2.length) {

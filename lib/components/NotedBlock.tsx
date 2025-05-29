@@ -7,9 +7,10 @@ import {
   PropositionType,
   RemarkType,
   LemmaType,
+  FactType,
   type NotedBlockData,
 } from '../core/blocks/noted-block';
-import { type BaseBlockProps } from './components';
+import { type BaseBlockProps, type BlockRenderer } from './components';
 
 export interface NotedBlockProps extends BaseBlockProps<NotedBlockData> {
   tag: string;
@@ -49,12 +50,12 @@ export function NotedBlock({ data, status, tag, theme, onContinue, readonly }: N
  * Adjust property names and theme colors according to your needs.
  */
 
-export function renderDefinitionBlock({
+export const renderDefinitionBlock: BlockRenderer<NotedBlockData> = ({
   data,
   status,
   onContinue,
   readonly,
-}: BaseBlockProps<NotedBlockData>) {
+}) => {
   return (
     <NotedBlock
       key={data.id}
@@ -66,14 +67,14 @@ export function renderDefinitionBlock({
       readonly={readonly}
     />
   );
-}
+};
 
-export function renderTheoremBlock({
+export const renderTheoremBlock: BlockRenderer<NotedBlockData> = ({
   data,
   status,
   onContinue,
   readonly,
-}: BaseBlockProps<NotedBlockData>) {
+}) => {
   return (
     <NotedBlock
       key={data.id}
@@ -85,14 +86,14 @@ export function renderTheoremBlock({
       readonly={readonly}
     />
   );
-}
+};
 
-export function renderPropositionBlock({
+export const renderPropositionBlock: BlockRenderer<NotedBlockData> = ({
   data,
   status,
   onContinue,
   readonly,
-}: BaseBlockProps<NotedBlockData>) {
+}) => {
   return (
     <NotedBlock
       key={data.id}
@@ -104,14 +105,14 @@ export function renderPropositionBlock({
       readonly={readonly}
     />
   );
-}
+};
 
-export function renderLemmaBlock({
+export const renderLemmaBlock: BlockRenderer<NotedBlockData> = ({
   data,
   status,
   onContinue,
   readonly,
-}: BaseBlockProps<NotedBlockData>) {
+}) => {
   return (
     <NotedBlock
       key={data.id}
@@ -123,14 +124,14 @@ export function renderLemmaBlock({
       readonly={readonly}
     />
   );
-}
+};
 
-export function renderRemarkBlock({
+export const renderRemarkBlock: BlockRenderer<NotedBlockData> = ({
   data,
   status,
   onContinue,
   readonly,
-}: BaseBlockProps<NotedBlockData>) {
+}) => {
   return (
     <NotedBlock
       key={data.id}
@@ -142,4 +143,23 @@ export function renderRemarkBlock({
       readonly={readonly}
     />
   );
-}
+};
+
+export const renderFactBlock: BlockRenderer<NotedBlockData> = ({
+  data,
+  status,
+  onContinue,
+  readonly,
+}) => {
+  return (
+    <NotedBlock
+      key={data.id}
+      data={data}
+      tag={FactType}
+      theme="green"
+      status={status}
+      onContinue={onContinue}
+      readonly={readonly}
+    />
+  );
+};
