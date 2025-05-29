@@ -1,24 +1,73 @@
-# Vite React Component Library Starter
+# mathertale-blocks
 
-This is a starter template for creating React component libraries using Vite. It includes a robust set of features to help you develop, test, and build your library efficiently.
+Mathertale schemas and blocks. 
 
-## Features
 
-- React: A JavaScript library for web and native user interfaces.
-- TypeScript: A strongly typed superset of JavaScript.
-- Tailwind: A utility-first CSS framework.
-- Storybook: A frontend workshop for building UI components and pages in isolation.
-- Vite: A next generation frontend tooling that runs and builds your library incredibly fast.
-- Vitest: A next generation testing framework.
-- ESLint: A tool that finds and fixes problems in your code.
-- Prettier: A code formatter.
-- Husky: A pre-commit hook.
-- Github Action: A tool that deploys your Storybook to GitHub page automatically.
+## CLI Usage
 
-## Get Started
+### Build Database
+Recursively finds all journey and quest files and builds the database:
 
-1. Clone this repository
-2. Install dependencies using `pnpm i` (or `npm i` if you like)
+```bash
+mathertale-build db ./
+# or
+mathertale-build db ./ --output ./data
+```
+
+**Warning**: You should not run this command in the root directory of your Mathertale project.
+
+
+## Important Schemas
+
+- `JourneySchema`
+- `QuestSchema`
+- `QuestShortSchema`
+- `BlockSchema`
+
+More information can be found in [src/schemas.ts](./src/schemas.ts).
+
+## Adding a New Block Type
+
+First you need to create the block file in blocks, which should offer:
+- The block type string;
+- The block data interface;
+- The convert function.
+
+Then add the convert function to `tagBlockMap` in "extract-content.ts". Also you need to export those types in "index.ts".
+
+## Templates
+
+```markdown
+# Quest: Quest Name
+id: test-id
+desc: This is a test quest.
+
+## Section: Introduction
+
+### para: Welcome
+id: para-welcome
+
+This is the welcome paragraph.
+
+## Section: Main Content
+
+### Para: Explanation
+id: para-explanation
+
+This explains the concept.
+
+### PARA: Conclusion
+id: para-conclusion
+
+This is the conclusion.
+```
+
+## Publishing to npm
+
+1.  **Build the project:** Make sure your code is compiled to JavaScript (usually in the `dist/` folder). Check your `package.json` for the build script (e.g., `pnpm build`).
+2.  **Update version:** Increment the `version` field in `package.json` according to semantic versioning rules.
+3.  **Login to npm:** Run `npm login` in your terminal and enter your npm credentials.
+4.  **Publish:** Run `npm publish`. If you use two-factor authentication, you might need to append `--otp=YOUR_OTP_CODE`.
 
 ## Scripts
 

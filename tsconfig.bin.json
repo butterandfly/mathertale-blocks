@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext", 
+    "moduleResolution": "Node",
+    "noEmit": false,
+    "outDir": "./dist/bin",
+    "rootDir": ".",
+    "declaration": false,
+    "declarationMap": false,
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "bin/**/*.ts",
+    "lib/**/*.ts"
+  ],
+  "exclude": [
+    "lib/**/*.stories.*",
+    "lib/**/*.test.*",
+    "bin/**/*.test.*"
+  ]
+} 
