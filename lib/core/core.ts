@@ -7,7 +7,7 @@ export {
   type SectionSchema,
   type QuestSchema,
   type QuestShortSchema,
-  type Category,
+  Category,
   type SoloQuestSchema,
   type SoloQuestShortSchema,
   type BaseQuestSchema,

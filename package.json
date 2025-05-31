@@ -1,6 +1,5 @@
 {
   "name": "mathertale-blocks",
-  "private": true,
   "version": "0.0.1",
   "description": "Mathertale Blocks",
   "author": "butterandfly",
@@ -107,7 +106,8 @@
   },
   "peerDependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "katex": "^0.16.0"
   },
   "bin": {
     "mathertale-build": "./dist/bin/cli.js"

@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react';
 import '../lib/global.css';
+import 'katex/dist/katex.min.css';
 
 const preview: Preview = {
   tags: ['autodocs'],

@@ -2,6 +2,41 @@
 
 Mathertale schemas and blocks.
 
+## Installation
+
+Install the package:
+
+```bash
+pnpm add mathertale-blocks
+```
+
+You need to compile Tailwind CSS for this module in your project. Edit your `global.css`:
+
+```css
+@source "../../node_modules/mathertale-blocks/dist/components.js";
+```
+
+### Math Support (Required for MarkdownContent component)
+
+This package uses katex for mathematical expression rendering. You need to install katex as a peer dependency and import its CSS:
+
+```bash
+pnpm add katex
+```
+
+Then import the katex CSS in your application:
+
+```javascript
+// In your main CSS file or application entry point
+import 'katex/dist/katex.min.css';
+```
+
+Or in your CSS/SCSS file:
+
+```css
+@import 'katex/dist/katex.min.css';
+```
+
 ## CLI Usage
 
 ### Build Database

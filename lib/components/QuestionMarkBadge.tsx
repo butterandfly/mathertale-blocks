@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from './ui/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { MarkdownContent } from './MarkdownContent';
