@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { HighlightBox } from './HighlightBox';
 import { BlockProgressControl } from './BlockProgressControl';
-import { cn } from './ui/utils';
+import { cn } from '@/lib/utils';
 import { SubmitControl } from './SubmitControl';
 import { type SingleChoiceBlockData } from '../core/blocks/single-choice-block';
 import { type BaseQuestionBlockProps, type QuestionBlockRenderer } from './components';

@@ -13,6 +13,11 @@ export default defineConfig({
     tailwindcss(),
     dts({ rollupTypes: true }), // Output .d.ts files
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'lib'),
+    },
+  },
   build: {
     target: 'esnext',
     minify: false,
@@ -35,6 +40,9 @@ export default defineConfig({
     coverage: {
       all: false,
       enabled: true,
+    },
+    alias: {
+      '@': resolve(__dirname, 'lib'),
     },
   },
 });

@@ -1,4 +1,4 @@
-import { cn } from './ui/utils';
+import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { MarkdownContent } from './MarkdownContent';
 

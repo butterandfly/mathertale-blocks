@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import ReactMarkdown, { type Components } from 'react-markdown';
-import { cn } from './ui/utils';
+import { cn } from '@/lib/utils';
 import rehypeRaw from 'rehype-raw';
 
 interface MarkdownContentProps {

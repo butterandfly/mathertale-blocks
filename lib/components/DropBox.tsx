@@ -1,7 +1,5 @@
-'use client';
-
 import { useDroppable } from '@dnd-kit/core';
-import { cn } from './ui/utils';
+import { cn } from '@/lib/utils';
 import { type ReactNode } from 'react';
 
 export type DropBoxColor = 'red' | 'blue' | 'green' | 'yellow' | 'purple';

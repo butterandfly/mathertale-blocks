@@ -1,10 +1,8 @@
-'use client';
-
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { ChevronDown } from 'lucide-react';
 import { BlockStatus } from '../core/schemas';
-import { cn } from './ui/utils';
+import { cn } from '@/lib/utils';
 
 interface BlockProgressControlProps {
   status: BlockStatus;

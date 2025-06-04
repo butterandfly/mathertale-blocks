@@ -1,6 +1,4 @@
-'use client';
-
-import { cn } from './ui/utils';
+import { cn } from '@/lib/utils';
 import { QuestionMarkBadge } from './QuestionMarkBadge';
 
 interface HighlightBoxProps {
