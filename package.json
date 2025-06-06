@@ -34,10 +34,11 @@
     "build": "storybook build",
     "build:lib": "tsc && vite build",
     "build:bin": "vite build --config vite.bin.config.ts && chmod +x dist/bin/cli.js",
-    "build:all": "npm run build:lib && npm run build:bin",
+    "build:all": "pnpm build:lib && pnpm build:bin",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "format": "prettier . --write --ignore-unknown",
+    "check": "pnpm test && pnpm format && pnpm lint",
     "prepare": "husky install"
   },
   "devDependencies": {

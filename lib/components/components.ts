@@ -10,8 +10,11 @@ export * from './MarkdownContent';
 export * from './ParaBlock';
 export * from './NotedBlock';
 export * from './SingleChoiceBlock';
+export * from './SelectionBlock';
 export * from './ProofReorderBlock';
 export * from './ContradictionBlock';
+
+export * from './ReadonlyQuest';
 
 import { type BlockSchema, type BlockStatus } from '../core/schemas';
 import React from 'react';

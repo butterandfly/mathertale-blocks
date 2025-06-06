@@ -89,7 +89,7 @@ export function DraggableMarkdownItem({
     );
   } else {
     // 使用 useDraggable hook
-    const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
       id,
       data: {
         containerGroup,
@@ -98,14 +98,7 @@ export function DraggableMarkdownItem({
       disabled,
     });
 
-    const style = transform
-      ? {
-          transform: CSS.Transform.toString(transform),
-          transition: 'none',
-          zIndex: 999,
-          width: 'auto',
-        }
-      : undefined;
+    const style = undefined;
 
     const highlightStyles = {
       none: '',

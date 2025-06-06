@@ -19,43 +19,38 @@ import { MarkdownContent } from './MarkdownContent';
 import { type BlockStatus } from '../core/schemas';
 import { BlockProgressControl } from './BlockProgressControl';
 import { SubmitControl } from './SubmitControl';
-import { Swords } from 'lucide-react';
-import {
-  type ContradictionChoice,
-  type ContradictionBlockData,
-} from '../core/blocks/contradiction-block';
+import { MousePointerClick } from 'lucide-react';
+import { type SelectionChoice, type SelectionBlockData } from '../core/blocks/selection-block';
 import type { QuestionBlockRenderer } from './components';
 
-const questionMarkContent = `Drag the contradiction facts into the boxes. Selected facts should be:
-- true, based on the assumption;
-- contradicting to each other.`;
+const questionMarkContent = `Drag the correct options into the selection box. Multiple options can be selected.`;
 
-export interface ContradictionBlockProps {
-  data: ContradictionBlockData;
+export interface SelectionBlockProps {
+  data: SelectionBlockData;
   status: BlockStatus;
   submittedAnswer?: string;
-  // submittedAnswer example: "a,b"
-  onSubmit: (data: ContradictionBlockData, submittedAnswer: string) => Promise<void>;
-  onContinue: (data: ContradictionBlockData) => Promise<void>;
+  // submittedAnswer example: "a,c,d"
+  onSubmit: (data: SelectionBlockData, submittedAnswer: string) => Promise<void>;
+  onContinue: (data: SelectionBlockData) => Promise<void>;
   readonly?: boolean;
 }
 
-// Enhanced ContradictionChoice with currentDropBoxId
-interface EnhancedContradictionChoice extends ContradictionChoice {
+// Enhanced SelectionChoice with currentDropBoxId
+interface EnhancedSelectionChoice extends SelectionChoice {
   currentDropBoxId?: string;
 }
 
-export function ContradictionBlock({
+export function SelectionBlock({
   data,
   status,
   submittedAnswer,
   onSubmit,
   onContinue,
   readonly,
-}: ContradictionBlockProps) {
-  // 将 choices 转换为 EnhancedContradictionChoice 数组
+}: SelectionBlockProps) {
+  // 将 choices 转换为 EnhancedSelectionChoice 数组
   const initialItems = useMemo(() => {
-    const items = data.questionData.choices.map((choice: ContradictionChoice) => ({
+    const items = data.questionData.choices.map((choice: SelectionChoice) => ({
       ...choice,
       currentDropBoxId: undefined,
     }));
@@ -63,27 +58,20 @@ export function ContradictionBlock({
     // 在只读模式下，显示正确答案
     if (readonly) {
       const correctAnswer = data.questionData.answer;
-      const [box1Key, box2Key] = correctAnswer;
-
       return items.map((item) => {
-        if (item.key === box1Key) {
-          return { ...item, currentDropBoxId: 'box-1' };
-        } else if (item.key === box2Key) {
-          return { ...item, currentDropBoxId: 'box-2' };
+        if (correctAnswer.includes(item.key)) {
+          return { ...item, currentDropBoxId: 'selection-box' };
         }
         return item;
       });
     }
 
-    // 如果已经有提交的答案，将对应的选项放入对应的盒子
+    // 如果已经有提交的答案，将对应的选项放入选择框
     if (submittedAnswer) {
-      const [box1Key, box2Key] = submittedAnswer.split(',');
-
+      const submittedKeys = submittedAnswer.split(',').map((key) => key.trim());
       return items.map((item) => {
-        if (item.key === box1Key) {
-          return { ...item, currentDropBoxId: 'box-1' };
-        } else if (item.key === box2Key) {
-          return { ...item, currentDropBoxId: 'box-2' };
+        if (submittedKeys.includes(item.key)) {
+          return { ...item, currentDropBoxId: 'selection-box' };
         }
         return item;
       });
@@ -92,7 +80,7 @@ export function ContradictionBlock({
     return items;
   }, [data.questionData.choices, submittedAnswer, readonly, data.questionData.answer]);
 
-  const [items, setItems] = useState<EnhancedContradictionChoice[]>(initialItems);
+  const [items, setItems] = useState<EnhancedSelectionChoice[]>(initialItems);
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -111,10 +99,10 @@ export function ContradictionBlock({
     }
 
     // 检查答案是否正确
-    const answer = data.questionData.answer;
-    const submittedAnswerArray = submittedAnswer.split(',');
+    const correctAnswer = data.questionData.answer;
+    const submittedAnswerArray = submittedAnswer.split(',').map((key) => key.trim());
 
-    const isEqual = haveSameElements(answer, submittedAnswerArray);
+    const isEqual = haveSameElements(correctAnswer, submittedAnswerArray);
 
     return {
       explanation: data.questionData.explanation,
@@ -122,29 +110,20 @@ export function ContradictionBlock({
     };
   }, [submittedAnswer, data.questionData, readonly]);
 
-  // 设置两个 DropBox，一个黄色一个紫色
-  const dropBoxes = useMemo(() => {
+  // 设置一个 DropBox
+  const dropBox = useMemo(() => {
     // 在只读模式下，总是显示绿色（正确答案）
     if (readonly) {
-      return [
-        { id: 'box-1', color: 'green' as DropBoxColor },
-        { id: 'box-2', color: 'green' as DropBoxColor },
-      ];
+      return { id: 'selection-box', color: 'green' as DropBoxColor };
     }
 
     // 如果已提交答案，根据正确与否设置颜色
     if (submittedAnswer !== undefined) {
       const boxColor = isCorrect ? 'green' : 'red';
-      return [
-        { id: 'box-1', color: boxColor as DropBoxColor },
-        { id: 'box-2', color: boxColor as DropBoxColor },
-      ];
+      return { id: 'selection-box', color: boxColor as DropBoxColor };
     }
 
-    return [
-      { id: 'box-1', color: 'yellow' as DropBoxColor },
-      { id: 'box-2', color: 'purple' as DropBoxColor },
-    ];
+    return { id: 'selection-box', color: 'blue' as DropBoxColor };
   }, [submittedAnswer, isCorrect, readonly]);
 
   // 配置传感器
@@ -197,8 +176,7 @@ export function ContradictionBlock({
     }
 
     // 检查是否拖到了 dropbox 区域外
-    const isDroppedOutsideBox = !dropBoxes.some((box) => box.id === over.id);
-    if (isDroppedOutsideBox) {
+    if (over.id !== dropBox.id) {
       // 如果拖到了 dropbox 区域外，检查是否是从 dropbox 中拖出
       const draggedItemIndex = items.findIndex((item) => item.key === active.id);
       if (draggedItemIndex !== -1 && items[draggedItemIndex].currentDropBoxId) {
@@ -214,44 +192,27 @@ export function ContradictionBlock({
       return;
     }
 
-    // 检查是否拖到了 dropbox
-    const isDroppedInBox = dropBoxes.some((box) => box.id === over.id);
-    if (!isDroppedInBox) return;
-
     // 找到被拖动的项目
     const draggedItemIndex = items.findIndex((item) => item.key === active.id);
     if (draggedItemIndex === -1) return;
 
-    // 检查目标 dropbox 是否已经有项目
-    const existingItemIndex = items.findIndex(
-      (item) => item.currentDropBoxId === over.id && item.key !== active.id,
-    );
-
     // 更新项目的 dropbox
     const updatedItems = [...items];
 
-    // 如果目标 dropbox 已经有项目，将其移回可用区域
-    if (existingItemIndex !== -1) {
-      // 如果被拖动的项目已经在一个 dropbox 中，则交换两个项目的位置
-      if (items[draggedItemIndex].currentDropBoxId) {
-        updatedItems[existingItemIndex] = {
-          ...updatedItems[existingItemIndex],
-          currentDropBoxId: items[draggedItemIndex].currentDropBoxId,
-        };
-      } else {
-        // 否则，将现有项目移回可用区域
-        updatedItems[existingItemIndex] = {
-          ...updatedItems[existingItemIndex],
-          currentDropBoxId: undefined,
-        };
-      }
+    // 根据drop的位置来决定行为
+    if (over.id === dropBox.id) {
+      // 如果拖到了选择框，将其放入选择框
+      updatedItems[draggedItemIndex] = {
+        ...updatedItems[draggedItemIndex],
+        currentDropBoxId: dropBox.id,
+      };
+    } else {
+      // 如果拖到了选择框外，将其移出选择框
+      updatedItems[draggedItemIndex] = {
+        ...updatedItems[draggedItemIndex],
+        currentDropBoxId: undefined,
+      };
     }
-
-    // 将被拖动的项目放入目标 dropbox
-    updatedItems[draggedItemIndex] = {
-      ...updatedItems[draggedItemIndex],
-      currentDropBoxId: over.id as string,
-    };
 
     setItems(updatedItems);
     setError(null);
@@ -259,35 +220,37 @@ export function ContradictionBlock({
 
   // 处理提交
   const handleSubmit = async () => {
-    // 检查是否两个 dropbox 都有项目
-    const box1Item = items.find((item) => item.currentDropBoxId === 'box-1');
-    const box2Item = items.find((item) => item.currentDropBoxId === 'box-2');
+    // 检查是否至少有一个选项被选择
+    const selectedItems = items.filter((item) => item.currentDropBoxId === dropBox.id);
 
-    if (!box1Item || !box2Item) {
-      setError('Please place an item in each box');
+    if (selectedItems.length === 0) {
+      setError('Please select at least one option');
       return;
     }
 
-    // 构建答案字符串，例如 "A,B" 表示 A 在第一个盒子，B 在第二个盒子
-    const submittedAnswer = `${box1Item.key},${box2Item.key}`;
+    // 构建答案字符串，例如 "a,c,d"
+    const submittedAnswer = selectedItems.map((item) => item.key).join(',');
     await onSubmit(data, submittedAnswer);
   };
 
-  // 获取不在任何 dropbox 中的项目
+  // 获取不在选择框中的项目
   const availableItems = items.filter((item) => !item.currentDropBoxId);
+
+  // 获取在选择框中的项目
+  const selectedItems = items.filter((item) => item.currentDropBoxId === dropBox.id);
 
   // 检查是否已提交
   const isSubmitted = submittedAnswer !== undefined;
 
   // 检查是否可以提交
-  const canSubmit = items.filter((item) => item.currentDropBoxId).length === 2;
+  const canSubmit = selectedItems.length > 0;
 
   return (
     <div className="space-y-6">
       <HighlightBox
         theme="gray"
         withBackground={false}
-        tag="Contradiction"
+        tag="Selection"
         questionMarkContent={questionMarkContent}
         className="space-y-6"
       >
@@ -304,70 +267,56 @@ export function ContradictionBlock({
           }}
         >
           <div className="space-y-6">
-            {/* 两个 DropBox 和中间的剑图标 */}
-            <div className="flex flex-col md:flex-row items-stretch justify-between w-full gap-4">
-              <div className="flex flex-col items-center w-full flex-1">
-                <div className="mb-2 font-medium">Fact 1</div>
-                <div className="w-full h-full">
-                  <DropBox
-                    {...dropBoxes[0]}
-                    disabled={isSubmitted || readonly}
-                    className="h-full"
-                  >
-                    {items.find((item) => item.currentDropBoxId === dropBoxes[0].id) && (
-                      <DraggableMarkdownItem
-                        id={items.find((item) => item.currentDropBoxId === dropBoxes[0].id)!.key}
-                        content={
-                          items.find((item) => item.currentDropBoxId === dropBoxes[0].id)!.content
-                        }
-                        disabled={isSubmitted || readonly}
-                      />
-                    )}
-                  </DropBox>
-                </div>
-              </div>
-
-              {/* 中间的剑图标 */}
-              <div className="flex flex-col items-center justify-center mx-2 my-2 md:my-auto">
-                <Swords
-                  className="text-gray-500"
-                  size={28}
+            {/* 选择框 */}
+            <div className="flex flex-col items-center w-full">
+              <div className="mb-2 font-medium flex items-center gap-2">
+                <MousePointerClick
+                  size={18}
+                  className="text-gray-600"
                 />
+                Selected Options
               </div>
-
-              <div className="flex flex-col items-center w-full flex-1">
-                <div className="mb-2 font-medium">Fact 2</div>
-                <div className="w-full h-full">
-                  <DropBox
-                    {...dropBoxes[1]}
-                    disabled={isSubmitted || readonly}
-                    className="h-full"
-                  >
-                    {items.find((item) => item.currentDropBoxId === dropBoxes[1].id) && (
+              <div className="w-full">
+                <DropBox
+                  {...dropBox}
+                  disabled={isSubmitted || readonly}
+                  className="min-h-[120px]"
+                >
+                  <div className="grid grid-cols-1 gap-2 w-full">
+                    {selectedItems.map((item) => (
                       <DraggableMarkdownItem
-                        id={items.find((item) => item.currentDropBoxId === dropBoxes[1].id)!.key}
-                        content={
-                          items.find((item) => item.currentDropBoxId === dropBoxes[1].id)!.content
-                        }
+                        key={item.key}
+                        id={item.key}
+                        content={item.content}
                         disabled={isSubmitted || readonly}
                       />
-                    )}
-                  </DropBox>
-                </div>
+                    ))}
+                  </div>
+                  {selectedItems.length === 0 && !isSubmitted && !readonly && (
+                    <div className="text-gray-400 text-center py-8">
+                      Drag options here to select them
+                    </div>
+                  )}
+                </DropBox>
               </div>
             </div>
 
             {/* 可用的拖动项目，每行显示两个 */}
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-              {availableItems.map((item) => (
-                <DraggableMarkdownItem
-                  key={item.key}
-                  id={item.key}
-                  content={item.content}
-                  disabled={isSubmitted || readonly}
-                />
-              ))}
-            </div>
+            {availableItems.length > 0 && (
+              <div className="space-y-2">
+                <div className="font-medium text-gray-700">Available Options</div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {availableItems.map((item) => (
+                    <DraggableMarkdownItem
+                      key={item.key}
+                      id={item.key}
+                      content={item.content}
+                      disabled={isSubmitted || readonly}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* 错误提示 */}
             {error && !isSubmitted && <div className="text-red-500 text-sm mt-2">{error}</div>}
@@ -415,16 +364,16 @@ export function ContradictionBlock({
   );
 }
 
-export const renderContradictionBlock: QuestionBlockRenderer<ContradictionBlockData> = ({
+export const renderSelectionBlock: QuestionBlockRenderer<SelectionBlockData> = ({
   data,
   status,
   onContinue,
   submittedAnswer,
   onSubmit,
   readonly,
-}: ContradictionBlockProps) => {
+}: SelectionBlockProps) => {
   return (
-    <ContradictionBlock
+    <SelectionBlock
       key={data.id}
       data={data}
       status={status}
