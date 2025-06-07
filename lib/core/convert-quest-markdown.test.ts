@@ -299,6 +299,24 @@ Prove that 2 + 2 = 4.
 #### Question Order
 3,1,2
 
+### selection: Selection Block
+id: selection-block-all-blocks
+
+Which of the following are prime numbers?
+
+#### Choices
+a: 2
+b: 4
+c: 3
+d: 6
+e: 5
+
+#### Answer
+a, c, e
+
+#### Explanation
+Prime numbers are numbers greater than 1 that have no divisors other than 1 and themselves. 2, 3, and 5 are prime, while 4 and 6 are composite.
+
 ### contradiction: Contradiction Block
 id: contradiction-block-all-blocks
 
@@ -378,7 +396,27 @@ This is the explanation.
     ]);
     expect(proofReorderQuestionData.questionOrder).toBe('3,1,2');
 
-    const contradictionBlock = result.sections[0]!.blocks[9]!;
+    const selectionBlock = result.sections[0]!.blocks[9]!;
+    expect(selectionBlock.type).toBe('SELECTION');
+    expect(selectionBlock.content).toBe('Which of the following are prime numbers?');
+    const selectionQuestionData = selectionBlock.questionData as {
+      choices: { key: string; content: string }[];
+      answer: string[];
+      explanation: string;
+    };
+    expect(selectionQuestionData.choices).toEqual([
+      { key: 'a', content: '2' },
+      { key: 'b', content: '4' },
+      { key: 'c', content: '3' },
+      { key: 'd', content: '6' },
+      { key: 'e', content: '5' },
+    ]);
+    expect(selectionQuestionData.answer).toEqual(['a', 'c', 'e']);
+    expect(selectionQuestionData.explanation).toBe(
+      'Prime numbers are numbers greater than 1 that have no divisors other than 1 and themselves. 2, 3, and 5 are prime, while 4 and 6 are composite.',
+    );
+
+    const contradictionBlock = result.sections[0]!.blocks[10]!;
     expect(contradictionBlock.type).toBe('CONTRADICTION');
     expect(contradictionBlock.content).toBe('This is a contradiction block.');
     const contradictionQuestionData = contradictionBlock.questionData as {

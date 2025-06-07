@@ -45,3 +45,11 @@ export {
   ContradictionBlockData,
   convertContradictionMarkdown,
 } from './blocks/contradiction-block';
+
+export {
+  SelectionType,
+  type SelectionChoice,
+  type SelectionQuestionData,
+  SelectionBlockData,
+  convertSelectionMarkdown,
+} from './blocks/selection-block';

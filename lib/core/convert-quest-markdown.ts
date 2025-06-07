@@ -14,6 +14,7 @@ import { convertProofReorderMarkdown } from './blocks/proof-reorder-block';
 import { convertSingleChoiceMarkdown } from './blocks/single-choice-block';
 import { type MarkdownBlock, parseQuestHeader } from './convert-markdown-helper';
 import { type BlockSchema, type QuestSchema, type SectionSchema, Category } from './schemas';
+import { convertSelectionMarkdown } from './blocks/selection-block';
 // 定义转换函数的类型
 type ConvertFunction = (block: MarkdownBlock) => BlockSchema;
 
@@ -29,6 +30,7 @@ const convertBlockMap: Record<string, ConvertFunction> = {
   single_choice: convertSingleChoiceMarkdown,
   proof_reorder: convertProofReorderMarkdown,
   contradiction: convertContradictionMarkdown,
+  selection: convertSelectionMarkdown,
 };
 
 interface MarkdownSection {

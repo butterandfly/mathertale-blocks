@@ -101,6 +101,10 @@ id: para-conclusion
 This is the conclusion.
 ```
 
+## Dev
+
+Before committing or building, you should test, format, and lint. You can use the `check` script to do it all: `pnpm check`.
+
 ## Publishing to npm
 
 1.  **Build the project:** Make sure your code is compiled to JavaScript (usually in the `dist/` folder). Check your `package.json` for the build script (e.g., `pnpm build`).

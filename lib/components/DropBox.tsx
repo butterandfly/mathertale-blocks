@@ -45,12 +45,12 @@ export function DropBox({
       className={cn(
         'rounded-lg border-2 p-3 min-h-[100px] w-full transition-colors',
         colorStyles[color],
-        isValidDrop && !disabled && 'border-dashed border-4',
-        isValidDrop && color === 'red' && 'border-red-500 bg-red-100',
-        isValidDrop && color === 'blue' && 'border-blue-500 bg-blue-100',
-        isValidDrop && color === 'green' && 'border-green-500 bg-green-100',
-        isValidDrop && color === 'yellow' && 'border-yellow-500 bg-yellow-100',
-        isValidDrop && color === 'purple' && 'border-purple-500 bg-purple-100',
+        isValidDrop && !disabled && 'border-dashed border-2',
+        isValidDrop && color === 'red' && 'border-red-500',
+        isValidDrop && color === 'blue' && 'border-blue-500',
+        isValidDrop && color === 'green' && 'border-green-500',
+        isValidDrop && color === 'yellow' && 'border-yellow-500',
+        isValidDrop && color === 'purple' && 'border-purple-500',
         disabled && 'cursor-not-allowed',
         className,
       )}
